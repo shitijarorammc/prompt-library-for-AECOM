@@ -1209,8 +1209,7 @@ select {
    CONFIGURATION — paste your Apps Script URL here
    after completing the Google Sheets setup.
    ══════════════════════════════════════════════════ */
-var APPS_SCRIPT_URL = '
-https://script.google.com/macros/s/AKfycbziqecJULzEKdi_yi4gonl5NnSm12ufZkzkiQWV9aypgpzUdz2MNP2Zof3DuM3G7cDg/exec';
+var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbziqecJULzEKdi_yi4gonl5NnSm12ufZkzkiQWV9aypgpzUdz2MNP2Zof3DuM3G7cDg/exec';
 
 /* ── STATE ── */
 var pretestScore = null;
@@ -1223,11 +1222,20 @@ function submitGate() {
   var email = document.getElementById('g-email').value.trim();
   var year  = document.getElementById('g-year').value;
 
-  document.getElementById('e-name').style.display  = name  ? 'none' : 'block';
-  document.getElementById('e-email').style.display = (email && email.includes('@')) ? 'none' : 'block';
-  document.getElementById('e-year').style.display  = year  ? 'none' : 'block';
+  var nameOk  = name.length > 0;
+  var emailOk = email.length > 0 && email.includes('@');
+  var yearOk  = year.length > 0;
 
-  if (!name || !email || !email.includes('@') || !year) return;
+  document.getElementById('e-name').style.display  = nameOk  ? 'none' : 'block';
+  document.getElementById('e-email').style.display = emailOk ? 'none' : 'block';
+  document.getElementById('e-year').style.display  = yearOk  ? 'none' : 'block';
+
+  /* highlight fields with errors */
+  document.getElementById('g-name').style.borderColor  = nameOk  ? '' : '#E24B4A';
+  document.getElementById('g-email').style.borderColor = emailOk ? '' : '#E24B4A';
+  document.getElementById('g-year').style.borderColor  = yearOk  ? '' : '#E24B4A';
+
+  if (!nameOk || !emailOk || !yearOk) return;
 
   student.name  = name;
   student.email = email;
