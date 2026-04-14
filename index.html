@@ -1249,9 +1249,9 @@ function submitGate() {
   logEvent('session_start', { name: student.name, email: student.email, year: student.year, student_id: student.id });
 }
 
-/* ── LOGGING ── */
+/* ── LOGGING — routed through Cloudflare Worker ── */
 function logEvent(event_type, payload) {
-  if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL === 'PASTE_YOUR_APPS_SCRIPT_URL_HERE') return;
+  if (!identityComplete) return;
   var data = Object.assign({
     event_type: event_type,
     student_id: student.id,
@@ -1260,14 +1260,11 @@ function logEvent(event_type, payload) {
     year: student.year,
     timestamp: new Date().toISOString()
   }, payload);
-  /* Use GET + URL params — reliable with Apps Script no-cors */
-  var params = Object.keys(data).map(function(k) {
-    return encodeURIComponent(k) + '=' + encodeURIComponent(
-      typeof data[k] === 'object' ? JSON.stringify(data[k]) : (data[k] === null ? '' : data[k])
-    );
-  }).join('&');
-  var img = new Image();
-  img.src = APPS_SCRIPT_URL + '?' + params;
+  fetch('https://promptscorer.sharora.workers.dev', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify({ type: 'log', data: data })
+  }).catch(function(){});
 }
 
 /* ── PANELS ── */
