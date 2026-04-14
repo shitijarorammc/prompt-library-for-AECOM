@@ -1209,7 +1209,8 @@ select {
    CONFIGURATION — paste your Apps Script URL here
    after completing the Google Sheets setup.
    ══════════════════════════════════════════════════ */
-var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbziqecJULzEKdi_yi4gonl5NnSm12ufZkzkiQWV9aypgpzUdz2MNP2Zof3DuM3G7cDg/exec';
+var APPS_SCRIPT_URL = '
+https://script.google.com/macros/s/AKfycbziqecJULzEKdi_yi4gonl5NnSm12ufZkzkiQWV9aypgpzUdz2MNP2Zof3DuM3G7cDg/exec';
 
 /* ── STATE ── */
 var pretestScore = null;
@@ -1251,12 +1252,14 @@ function logEvent(event_type, payload) {
     year: student.year,
     timestamp: new Date().toISOString()
   }, payload);
-  fetch(APPS_SCRIPT_URL, {
-    method: 'POST',
-    mode: 'no-cors',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data)
-  }).catch(function(){});
+  /* Use GET + URL params — reliable with Apps Script no-cors */
+  var params = Object.keys(data).map(function(k) {
+    return encodeURIComponent(k) + '=' + encodeURIComponent(
+      typeof data[k] === 'object' ? JSON.stringify(data[k]) : (data[k] === null ? '' : data[k])
+    );
+  }).join('&');
+  var img = new Image();
+  img.src = APPS_SCRIPT_URL + '?' + params;
 }
 
 /* ── PANELS ── */
@@ -1594,32 +1597,11 @@ async function scorePrompt() {
   document.getElementById('rubric-loading').style.display = 'block';
   document.getElementById('rubric-results').style.display = 'none';
 
-  var systemPrompt = `You are an expert in prompt engineering education for medical students. Your job is to evaluate the CRAFT and STRUCTURE of a student's prompt — not the clinical content or accuracy of any medical claims. You evaluate prompts on five dimensions. Respond ONLY with a valid JSON object, no markdown, no preamble, no explanation outside the JSON.
-
-The five dimensions:
-1. context_sufficiency: Did the student provide enough clinical or research context for the model to give a specific, useful answer? (not too vague, not too generic)
-2. technique_selection: Did the student apply or attempt a prompting technique (CoT, CoVe, VS, or another structured approach)? A basic unstructured ask scores low.
-3. format_instruction: Did the student specify how they want the output structured (step-by-step, list, table, word limit, etc.)?
-4. constraint_clarity: Did the student add useful constraints (audience, length, specific guideline, reading level, etc.)?
-5. output_verifiability: Would the student be able to tell if this output were wrong? Does the prompt set up a response that can be checked?
-
-For each dimension, return a score from 1-5 (1=poor, 3=adequate, 5=excellent) and a one-sentence feedback string (max 25 words, specific and actionable).
-
-Respond with exactly this JSON structure:
-{"context_sufficiency":{"score":N,"feedback":"..."},"technique_selection":{"score":N,"feedback":"..."},"format_instruction":{"score":N,"feedback":"..."},"constraint_clarity":{"score":N,"feedback":"..."},"output_verifiability":{"score":N,"feedback":"..."}}`;
-
-  var userMessage = 'Scenario: ' + scenario + '\n\nStudent prompt:\n' + prompt;
-
   try {
-    var response = await fetch('https://api.anthropic.com/v1/messages', {
+    var response = await fetch('https://promptscorer.sharora.workers.dev', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        system: systemPrompt,
-        messages: [{ role: 'user', content: userMessage }]
-      })
+      body: JSON.stringify({ scenario: scenario, prompt: prompt })
     });
     var data = await response.json();
     var text = data.content && data.content[0] ? data.content[0].text : '';
