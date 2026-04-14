@@ -1606,10 +1606,14 @@ async function scorePrompt() {
   document.getElementById('rubric-results').style.display = 'none';
 
   try {
+    var payload = JSON.stringify({ scenario: scenario, prompt: prompt });
     var response = await fetch('https://promptscorer.sharora.workers.dev', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ scenario: scenario, prompt: prompt })
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: payload
     });
     var result = await response.json();
     if (result.error) throw new Error(result.error);
@@ -1631,7 +1635,7 @@ async function scorePrompt() {
     });
   } catch(e) {
     document.getElementById('rubric-results').style.display = 'block';
-    document.getElementById('rubric-results').innerHTML = '<div style="font-size:13px;color:var(--coral-dark);padding:10px;background:var(--coral-pale);border-radius:var(--radius-md)">Could not connect to the scoring service. Check your connection and try again.</div>';
+    document.getElementById('rubric-results').innerHTML = '<div style="font-size:13px;color:var(--coral-dark);padding:10px;background:var(--coral-pale);border-radius:var(--radius-md)">Scoring error: ' + e.message + '</div>';
   }
 
   document.getElementById('rubric-btn').disabled = false;
