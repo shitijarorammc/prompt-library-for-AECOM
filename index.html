@@ -1260,12 +1260,10 @@ function logEvent(event_type, payload) {
     year: student.year,
     timestamp: new Date().toISOString()
   }, payload);
-  var SHEET_URL = 'https://script.google.com/macros/s/AKfycbziqecJULzEKdi_yi4gonl5NnSm12ufZkzkiQWV9aypgpzUdz2MNP2Zof3DuM3G7cDg/exec';
-  fetch(SHEET_URL, {
+  fetch('https://promptscorer.sharora.workers.dev', {
     method: 'POST',
-    mode: 'no-cors',
-    headers: { 'Content-Type': 'text/plain' },
-    body: JSON.stringify(data)
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify({ type: 'log', data: data })
   }).catch(function(){});
 }
 
