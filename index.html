@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Prompt Designing for Medical Students — Albert Einstein College of Medicine</title>
+<title>Prompt Design for Medical Education — Albert Einstein College of Medicine</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -653,13 +653,13 @@ select {
     <!-- ABOUT SECTION -->
     <div class="gate-about">
       <div class="gate-logo"><div class="gate-logo-dot"></div>Albert Einstein College of Medicine</div>
-      <h2>Prompt Designing<br><em>for Medical Students</em></h2>
+      <h2>Prompt Design<br><em>for Medical Education</em></h2>
       <p class="gate-desc">AI tools are only as good as the questions you ask them. This guide teaches three evidence-based prompting strategies — Chain of Thought, Chain of Verification, and Verbalized Sampling — with examples drawn from clinical medicine, research, and board preparation.</p>
 
       <div class="gate-authors">
         <div class="gate-author-label">Created by</div>
-        <div class="gate-author-name">Shitij Arora, MD</div>
-        <div class="gate-author-dept">Albert Einstein College of Medicine · Montefiore Medical Center</div>
+        <div class="gate-author-name">Shitij Arora, MD &amp; Sunit Jariwala, MD</div>
+        <div class="gate-author-dept">Innovation and Biodesign Program · Albert Einstein College of Medicine · Montefiore Medical Center</div>
       </div>
 
       <div class="gate-refs">
@@ -722,10 +722,10 @@ select {
 <!-- HERO -->
 <div class="hero">
   <div class="hero-inst"><div class="hero-inst-dot"></div>Albert Einstein College of Medicine</div>
-  <h1>Prompt Designing<br><em>for Medical Students</em></h1>
+  <h1>Prompt Design<br><em>for Medical Education</em></h1>
   <p class="hero-sub">AI tools are only as good as the questions you ask them. This guide teaches three evidence-based prompting techniques — how they work, when to use each, and how to apply them to research and clinical medicine.</p>
   <div class="hero-meta">
-    <span class="hero-author"><strong>Shitij Arora, MD</strong></span>
+    <span class="hero-author"><strong>Shitij Arora, MD &amp; Sunit Jariwala, MD</strong> · Innovation and Biodesign Program</span>
   </div>
   <a class="hero-ref" href="https://arxiv.org/abs/2402.07927" target="_blank">
     <div class="hero-ref-dot"></div>Sahoo et al. 2024 — arXiv:2402.07927
@@ -1199,8 +1199,8 @@ select {
 </div>
 
 <div class="footer">
-  <span>Prompt Designing for Medical Students · Albert Einstein College of Medicine</span>
-  <span>Shitij Arora, MD · Sahoo et al. 2024, arXiv:2402.07927</span>
+  <span>Prompt Design for Medical Education · Albert Einstein College of Medicine</span>
+  <span>Shitij Arora, MD · Sunit Jariwala, MD · Innovation and Biodesign Program · Sahoo et al. 2024, arXiv:2402.07927</span>
 </div>
 
 </div><!-- /container -->
@@ -1249,7 +1249,7 @@ function submitGate() {
   logEvent('session_start', { name: student.name, email: student.email, year: student.year, student_id: student.id });
 }
 
-/* ── LOGGING — routed through Cloudflare Worker ── */
+/* ── LOGGING — direct to Apps Script ── */
 function logEvent(event_type, payload) {
   if (!identityComplete) return;
   var data = Object.assign({
@@ -1260,10 +1260,12 @@ function logEvent(event_type, payload) {
     year: student.year,
     timestamp: new Date().toISOString()
   }, payload);
-  fetch('https://promptscorer.sharora.workers.dev', {
+  var SHEET_URL = 'https://script.google.com/macros/s/AKfycbziqecJULzEKdi_yi4gonl5NnSm12ufZkzkiQWV9aypgpzUdz2MNP2Zof3DuM3G7cDg/exec';
+  fetch(SHEET_URL, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-    body: JSON.stringify({ type: 'log', data: data })
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'text/plain' },
+    body: JSON.stringify(data)
   }).catch(function(){});
 }
 
