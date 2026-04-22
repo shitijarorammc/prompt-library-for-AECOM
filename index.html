@@ -692,18 +692,16 @@ select {
     <!-- FORM SECTION -->
     <div class="gate-form">
       <div class="gate-form-title">Enter your details to begin</div>
-      <p class="gate-form-sub">Your pre-test score and prompt practice results are recorded for curriculum assessment. No patient data is collected.</p>
+      <p class="gate-form-sub">No names or email addresses are collected. Your anonymous code lets us match pre- and post-test scores for curriculum assessment only.</p>
 
       <div class="gate-field">
-        <label>Full name</label>
-        <input class="gate-input" id="g-name" type="text" placeholder="First Last" autocomplete="name">
-        <div class="gate-error" id="e-name">Please enter your name.</div>
-      </div>
-
-      <div class="gate-field">
-        <label>Einstein / Montefiore email</label>
-        <input class="gate-input" id="g-email" type="email" placeholder="firstname.lastname@einsteinmed.edu" autocomplete="email">
-        <div class="gate-error" id="e-email">Please enter a valid email address.</div>
+        <label>Anonymous code <span style="font-weight:400;color:var(--muted)">— create your own</span></label>
+        <input class="gate-input" id="g-name" type="text" placeholder="e.g. MA94NY" autocomplete="off" maxlength="20" style="letter-spacing:0.08em; text-transform:uppercase;">
+        <div class="gate-hint" style="font-size:13px;color:var(--muted);margin-top:5px;line-height:1.5;">
+          First 2 letters of mother's first name + last 2 digits of birth year + first 2 letters of your city.<br>
+          <strong>Example:</strong> Mary, born 1994, New York → <strong>MA94NY</strong>
+        </div>
+        <div class="gate-error" id="e-name">Please enter your anonymous code (at least 4 characters).</div>
       </div>
 
       <div class="gate-field">
@@ -1246,35 +1244,30 @@ var identityComplete = false;
 
 /* ── IDENTITY GATE ── */
 function submitGate() {
-  var name  = document.getElementById('g-name').value.trim();
-  var email = document.getElementById('g-email').value.trim();
-  var year  = document.getElementById('g-year').value;
+  var code = document.getElementById('g-name').value.trim().toUpperCase();
+  var year = document.getElementById('g-year').value;
 
-  var nameOk  = name.length > 0;
-  var emailOk = email.length > 0 && email.includes('@');
-  var yearOk  = year.length > 0;
+  var codeOk = code.length >= 4;
+  var yearOk = year.length > 0;
 
-  document.getElementById('e-name').style.display  = nameOk  ? 'none' : 'block';
-  document.getElementById('e-email').style.display = emailOk ? 'none' : 'block';
-  document.getElementById('e-year').style.display  = yearOk  ? 'none' : 'block';
+  document.getElementById('e-name').style.display = codeOk ? 'none' : 'block';
+  document.getElementById('e-year').style.display = yearOk ? 'none' : 'block';
 
-  /* highlight fields with errors */
-  document.getElementById('g-name').style.borderColor  = nameOk  ? '' : '#E24B4A';
-  document.getElementById('g-email').style.borderColor = emailOk ? '' : '#E24B4A';
-  document.getElementById('g-year').style.borderColor  = yearOk  ? '' : '#E24B4A';
+  document.getElementById('g-name').style.borderColor = codeOk ? '' : '#E24B4A';
+  document.getElementById('g-year').style.borderColor = yearOk ? '' : '#E24B4A';
 
-  if (!nameOk || !emailOk || !yearOk) return;
+  if (!codeOk || !yearOk) return;
 
-  student.name  = name;
-  student.email = email;
+  student.name  = code;
+  student.email = 'anonymous';
   student.year  = year;
-  student.id    = name.toLowerCase().replace(/\s+/g,'_') + '_' + Date.now();
+  student.id    = code + '_' + year + '_' + Date.now();
   identityComplete = true;
 
   document.getElementById('gate-overlay').style.display = 'none';
   document.getElementById('pretest-banner').style.display = 'flex';
 
-  logEvent('session_start', { name: student.name, email: student.email, year: student.year, student_id: student.id });
+  logEvent('session_start', { code: student.name, year: student.year, student_id: student.id });
 }
 
 /* ── LOGGING — direct to Apps Script ── */
@@ -1314,10 +1307,8 @@ function goHome() {
   document.getElementById('pretest-banner').style.display = 'none';
   // Reset gate fields
   var gname = document.getElementById('g-name');
-  var gemail = document.getElementById('g-email');
   var gyear = document.getElementById('g-year');
   if (gname) { gname.value = ''; gname.style.borderColor = ''; }
-  if (gemail) { gemail.value = ''; gemail.style.borderColor = ''; }
   if (gyear) { gyear.value = ''; gyear.style.borderColor = ''; }
   // Reset to first tab
   showPanel('techniques', document.querySelector('.tab'));
