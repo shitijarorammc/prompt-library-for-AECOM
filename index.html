@@ -532,8 +532,12 @@ select {
   background: var(--bg);
   display: flex; align-items: flex-start; justify-content: center;
   padding: 1.5rem;
-  overflow-y: scroll;
+  overflow-y: auto;
   -webkit-overflow-scrolling: touch;
+}
+.gate-card {
+  margin-top: auto;
+  margin-bottom: auto;
 }
 .gate-card {
   width: 100%; max-width: 820px;
@@ -542,6 +546,7 @@ select {
   border-radius: var(--radius-xl);
   display: flex; flex-direction: row;
   overflow: hidden;
+  margin: auto;
 }
 @media (max-width: 640px) {
   .gate-card { flex-direction: column; max-width: 480px; }
@@ -1317,6 +1322,7 @@ function goHome() {
   // Reset to first tab
   showPanel('techniques', document.querySelector('.tab'));
 }
+function showPanel(id, btn) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.getElementById('panel-' + id).classList.add('active');
