@@ -743,12 +743,25 @@ select {
 </div>
 
 <!-- TABS -->
-<div class="tab-row">
-  <button class="tab active" onclick="showPanel('techniques', this)">Techniques</button>
-  <button class="tab" onclick="showPanel('decide', this)">Which one?</button>
-  <button class="tab" onclick="showPanel('evaluate', this)">Evaluate yourself</button>
-  <button class="tab" onclick="showPanel('mistakes', this)">Common mistakes</button>
-  <button class="tab" onclick="showPanel('references', this)">References</button>
+<div class="tab-row" style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+  <div style="display:flex; gap:4px; flex-wrap:wrap;">
+    <button class="tab active" onclick="showPanel('techniques', this)">Techniques</button>
+    <button class="tab" onclick="showPanel('decide', this)">Which one?</button>
+    <button class="tab" onclick="showPanel('evaluate', this)">Evaluate yourself</button>
+    <button class="tab" onclick="showPanel('mistakes', this)">Common mistakes</button>
+    <button class="tab" onclick="showPanel('references', this)">References</button>
+  </div>
+  <button onclick="goHome()" style="
+    display:inline-flex; align-items:center; gap:6px;
+    font-family:'DM Sans',sans-serif; font-size:13px; font-weight:500;
+    color:var(--muted); background:var(--bg2);
+    border:0.5px solid var(--border2); border-radius:6px;
+    padding:6px 14px; cursor:pointer; white-space:nowrap;
+    transition:background 0.15s, color 0.15s;
+  " onmouseover="this.style.color='var(--ink)';this.style.background='var(--bg3)'" 
+     onmouseout="this.style.color='var(--muted)';this.style.background='var(--bg2)'">
+    ← Home
+  </button>
 </div>
 
 <!-- ═══ PANEL 1: TECHNIQUES ═══ -->
@@ -1269,7 +1282,27 @@ function logEvent(event_type, payload) {
 }
 
 /* ── PANELS ── */
-function showPanel(id, btn) {
+function goHome() {
+  if (!confirm('Return to the home screen? Your progress in this session will be reset.')) return;
+  // Reset state
+  student = { name: '', year: '', email: '', id: '' };
+  identityComplete = false;
+  pretestScore = null;
+  quizScores = [];
+  isPretest = true;
+  // Show gate, hide main content
+  document.getElementById('gate-overlay').style.display = 'flex';
+  document.getElementById('pretest-banner').style.display = 'none';
+  // Reset gate fields
+  var gname = document.getElementById('g-name');
+  var gemail = document.getElementById('g-email');
+  var gyear = document.getElementById('g-year');
+  if (gname) { gname.value = ''; gname.style.borderColor = ''; }
+  if (gemail) { gemail.value = ''; gemail.style.borderColor = ''; }
+  if (gyear) { gyear.value = ''; gyear.style.borderColor = ''; }
+  // Reset to first tab
+  showPanel('techniques', document.querySelector('.tab'));
+}
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.getElementById('panel-' + id).classList.add('active');
