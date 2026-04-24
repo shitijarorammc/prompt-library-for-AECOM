@@ -70,7 +70,91 @@ body {
 
 .container { max-width: 1020px; margin: 0 auto; }
 
-/* ── HERO ── */
+/* ══════════════════════════════
+   PHASE MODEL
+   ══════════════════════════════ */
+.phase { display: none; animation: fadeIn 0.25s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+/* WELCOME PHASE */
+.phase-hero { max-width: 680px; margin: 3rem auto; text-align: center; padding: 0 1rem; }
+.phase-inst { display: inline-flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--blue-dark); margin-bottom: 1.5rem; }
+.phase-inst-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--blue-dark); }
+.phase-title { font-family: 'DM Serif Display', serif; font-size: clamp(32px, 5vw, 48px); font-weight: 400; color: var(--ink); line-height: 1.15; margin-bottom: 1.25rem; }
+.phase-title em { color: var(--blue-dark); font-style: italic; }
+.phase-subtitle { font-size: 17px; color: var(--muted); line-height: 1.7; margin-bottom: 2.5rem; }
+
+.journey-map { display: flex; align-items: flex-start; justify-content: center; gap: 0; margin-bottom: 2.5rem; flex-wrap: wrap; gap: 8px; }
+.journey-step { background: var(--bg2); border: 0.5px solid var(--border2); border-radius: var(--radius-lg); padding: 16px 18px; text-align: center; min-width: 130px; flex: 1; max-width: 160px; }
+.journey-step.active { background: var(--blue-pale); border-color: var(--blue-light); }
+.journey-num { width: 32px; height: 32px; border-radius: 50%; background: var(--bg3); color: var(--muted); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; margin: 0 auto 8px; }
+.journey-step.active .journey-num { background: var(--blue-dark); color: #fff; }
+.journey-label { font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
+.journey-desc { font-size: 12px; color: var(--muted); line-height: 1.4; }
+.journey-arrow { font-size: 20px; color: var(--hint); align-self: center; padding: 0 4px; display: flex; }
+@media (max-width: 600px) { .journey-arrow { display: none; } .journey-step { max-width: 100%; } }
+
+.phase-cta-primary {
+  display: inline-block; padding: 16px 40px;
+  background: var(--blue-dark); color: #fff;
+  border: none; border-radius: var(--radius-lg);
+  font-family: 'DM Sans', sans-serif; font-size: 17px; font-weight: 600;
+  cursor: pointer; transition: opacity 0.15s; margin-bottom: 12px;
+  letter-spacing: -0.01em;
+}
+.phase-cta-primary:hover { opacity: 0.88; }
+.phase-cta-note { font-size: 13px; color: var(--hint); margin-top: 4px; }
+
+/* FOCUSED PHASE (baseline + post-test) */
+.phase-focused { max-width: 680px; margin: 0 auto; }
+.phase-focused-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.25rem 0 1.5rem;
+  border-bottom: 0.5px solid var(--border); margin-bottom: 2rem;
+}
+.phase-focused-label { font-size: 13px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+.phase-home-btn {
+  font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500;
+  color: var(--muted); background: var(--bg2); border: 0.5px solid var(--border2);
+  border-radius: 6px; padding: 6px 14px; cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.phase-home-btn:hover { background: var(--bg3); color: var(--ink); }
+
+/* CONTENT PHASE */
+.content-topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1rem 0 1rem; gap: 12px; flex-wrap: wrap;
+  border-bottom: 0.5px solid var(--border); margin-bottom: 1.5rem;
+}
+.content-progress { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.cp-step {
+  font-size: 12px; font-weight: 500; padding: 4px 10px;
+  border-radius: 20px; background: var(--bg2); color: var(--hint);
+  border: 0.5px solid var(--border2); white-space: nowrap;
+  transition: all 0.2s;
+}
+.cp-step.done { background: var(--teal-pale); color: var(--teal-dark); border-color: var(--teal-light); }
+.cp-step.active { background: var(--blue-dark); color: #fff; border-color: var(--blue-dark); }
+.cp-step.locked { opacity: 0.5; }
+
+.content-tabs {
+  display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 2rem;
+  padding-bottom: 1rem; border-bottom: 0.5px solid var(--border);
+}
+.ctab {
+  font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 400;
+  padding: 8px 16px; border: 0.5px solid var(--border2);
+  border-radius: 20px; background: var(--bg); color: var(--muted);
+  cursor: pointer; transition: all 0.14s;
+}
+.ctab:hover { background: var(--bg2); color: var(--ink); }
+.ctab.active { background: var(--ink); color: var(--bg); border-color: var(--ink); font-weight: 500; }
+
+/* ── PROGRESS TRACKER (kept for JS compat, hidden visually) ── */
+.prog-step, .prog-line { display: none; }
+
+/* ── HERO (kept for backwards compat CSS refs) ── */
 .hero {
   position: relative; overflow: hidden;
   background: var(--bg2);
@@ -180,6 +264,68 @@ body {
 .intro-p { font-size: 16px; color: var(--muted); line-height: 1.75; margin-bottom: 1.5rem; }
 
 /* ── TECHNIQUE CARDS ── */
+/* ── PROGRESS TRACKER ── */
+.prog-step {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  min-width: 64px; cursor: default;
+}
+.prog-circle {
+  width: 32px; height: 32px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 600;
+  background: var(--bg3); color: var(--muted);
+  border: 1.5px solid var(--border2);
+  transition: all 0.2s;
+}
+.prog-label { font-size: 11px; color: var(--muted); white-space: nowrap; font-weight: 500; }
+.prog-step.done .prog-circle { background: var(--green-pale); color: var(--green-dark); border-color: var(--green-dark); }
+.prog-step.done .prog-label { color: var(--green-dark); }
+.prog-step.active .prog-circle { background: var(--blue); color: #fff; border-color: var(--blue); }
+.prog-step.active .prog-label { color: var(--blue); font-weight: 600; }
+.prog-step.locked .prog-circle { background: var(--bg2); color: var(--hint); border-color: var(--border); font-size: 14px; }
+.prog-line { flex: 1; height: 2px; background: var(--border2); min-width: 16px; margin-bottom: 16px; transition: background 0.3s; }
+.prog-line.done { background: var(--green-dark); }
+
+.tab-locked {
+  opacity: 0.4; cursor: not-allowed !important;
+  pointer-events: auto;
+}
+.tab-locked:hover { background: var(--bg2) !important; color: var(--muted) !important; }
+
+/* ── PROMPT CONSTRUCTION ── */
+.construct-card, .construct-full {
+  background: var(--bg2); border: 0.5px solid var(--border2);
+  border-radius: var(--radius-lg); overflow: hidden;
+}
+.cc-header {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 18px; cursor: pointer; transition: background 0.15s;
+}
+.cc-header:hover { background: var(--bg3); }
+.cc-full-header {
+  display: flex; align-items: center; gap: 12px;
+  padding: 16px 18px; cursor: pointer; transition: background 0.15s;
+}
+.cc-full-header:hover { background: var(--bg3); }
+.cc-num {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--blue); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700; flex-shrink: 0;
+}
+.cc-title { font-weight: 600; font-size: 15px; color: var(--ink); }
+.cc-sub { font-size: 13px; color: var(--muted); margin-left: auto; }
+.cc-arrow { font-size: 18px; color: var(--hint); margin-left: 8px; transition: transform 0.2s; }
+.construct-card.open .cc-arrow, .construct-full.open .cc-arrow { transform: rotate(90deg); }
+.cc-body { display: none; padding: 0 18px 18px; font-size: 14px; line-height: 1.7; color: var(--muted); }
+.construct-card.open .cc-body, .construct-full.open .cc-body { display: block; }
+.cc-example { background: var(--bg); border-radius: var(--radius-md); padding: 14px; margin-top: 12px; }
+.cc-ex-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 4px; }
+.cc-ex-label.bad { color: #E24B4A; }
+.cc-ex-label.good { color: var(--green-dark); }
+.cc-ex-text { font-size: 13px; color: var(--ink); line-height: 1.6; font-style: italic; }
+
+/* ── ACCORDION ── */
 .technique-card {
   border: 0.5px solid var(--border); border-radius: var(--radius-xl);
   overflow: hidden; margin-bottom: 1rem; background: var(--bg);
@@ -343,16 +489,7 @@ select {
 .copy-btn:hover { background: var(--ink); color: var(--bg); border-color: var(--ink); }
 
 /* ── EVALUATE PANEL ── */
-.eval-tabs { display: flex; gap: 4px; margin-bottom: 1.5rem; flex-wrap: wrap; }
-.eval-tab {
-  font-family: 'DM Sans', sans-serif; font-size: 14px;
-  padding: 6px 13px; border: 0.5px solid var(--border2);
-  border-radius: 20px; background: var(--bg); color: var(--muted);
-  cursor: pointer; transition: all 0.14s;
-}
-.eval-tab.active { background: var(--blue-dark); border-color: var(--blue-dark); color: #fff; font-weight: 500; }
-.eval-panel { display: none; }
-.eval-panel.active { display: block; }
+.eval-panel { display: block; }
 
 /* Quiz */
 .quiz-q { font-size: 15px; font-weight: 500; color: var(--ink); line-height: 1.55; margin-bottom: 12px; }
@@ -401,85 +538,6 @@ select {
 .delta-up   { background: var(--teal-pale); color: var(--teal-dark); }
 .delta-same { background: var(--bg3); color: var(--muted); }
 .delta-down { background: var(--coral-pale); color: var(--coral-dark); }
-
-/* Self-audit checklist */
-.audit-intro { font-size: 14px; color: var(--muted); line-height: 1.7; margin-bottom: 1.25rem; }
-.audit-items { display: flex; flex-direction: column; gap: 8px; margin-bottom: 1.25rem; }
-.audit-item {
-  display: flex; align-items: flex-start; gap: 12px;
-  padding: 11px 13px; border: 0.5px solid var(--border2);
-  border-radius: var(--radius-md); background: var(--bg);
-  cursor: pointer; transition: all 0.14s; user-select: none;
-}
-.audit-item.checked {
-  background: var(--teal-pale); border-color: var(--teal-mid);
-}
-.audit-check {
-  width: 18px; height: 18px; border-radius: 50%;
-  border: 1.5px solid var(--border2); flex-shrink: 0; margin-top: 1px;
-  display: flex; align-items: center; justify-content: center;
-  transition: all 0.14s; background: var(--bg);
-}
-.audit-item.checked .audit-check {
-  background: var(--teal-mid); border-color: var(--teal-mid); color: #fff;
-  font-size: 10px;
-}
-.audit-text { font-size: 13px; color: var(--ink); line-height: 1.55; }
-.audit-text strong { font-weight: 500; display: block; margin-bottom: 1px; }
-.audit-text span { font-size: 14px; color: var(--muted); }
-.audit-gate {
-  padding: 10px 14px; border-radius: var(--radius-md);
-  font-size: 13px; text-align: center;
-  border: 0.5px solid var(--border);
-  background: var(--bg2); color: var(--muted);
-  transition: all 0.2s;
-}
-.audit-gate.complete {
-  background: var(--teal-pale); border-color: var(--teal-mid);
-  color: var(--teal-dark); font-weight: 500;
-}
-
-/* Rubric scorer */
-.rubric-intro { font-size: 14px; color: var(--muted); line-height: 1.7; margin-bottom: 1.25rem; }
-.scenario-select-label { font-size: 13px; color: var(--muted); margin-bottom: 6px; display: block; }
-.rubric-textarea {
-  width: 100%; font-family: 'DM Sans', sans-serif; font-size: 14px;
-  padding: 11px 13px; border: 0.5px solid var(--border2);
-  border-radius: var(--radius-md); background: var(--bg); color: var(--ink);
-  line-height: 1.65; resize: vertical; min-height: 120px;
-  margin-bottom: 10px; transition: border-color 0.14s;
-}
-.rubric-textarea:focus { outline: none; border-color: var(--blue-mid); }
-.rubric-submit {
-  font-family: 'DM Sans', sans-serif; font-size: 14px;
-  padding: 9px 20px; border-radius: var(--radius-md);
-  background: var(--blue-dark); color: #fff; border: none;
-  cursor: pointer; transition: opacity 0.15s; margin-bottom: 1.25rem;
-}
-.rubric-submit:hover { opacity: 0.88; }
-.rubric-submit:disabled { opacity: 0.45; cursor: not-allowed; }
-
-.rubric-results { display: none; }
-.rubric-dim {
-  margin-bottom: 10px; padding: 11px 13px;
-  border: 0.5px solid var(--border); border-radius: var(--radius-md);
-  background: var(--bg);
-}
-.rubric-dim-header { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
-.rubric-dim-name { font-size: 13px; font-weight: 500; color: var(--ink); flex: 1; }
-.rubric-score-badge {
-  font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 20px;
-}
-.score-high   { background: var(--teal-pale);   color: var(--teal-dark); }
-.score-mid    { background: var(--amber-pale);  color: var(--amber-dark); }
-.score-low    { background: var(--coral-pale);  color: var(--coral-dark); }
-.rubric-dim-bar { height: 4px; background: var(--bg3); border-radius: 2px; margin-bottom: 6px; overflow: hidden; }
-.rubric-dim-fill { height: 100%; border-radius: 2px; transition: width 0.6s ease; }
-.fill-high { background: var(--teal-mid); }
-.fill-mid  { background: var(--amber-mid); }
-.fill-low  { background: var(--coral-mid); }
-.rubric-dim-fb { font-size: 14px; color: var(--muted); line-height: 1.55; }
-.rubric-loading { font-size: 14px; color: var(--muted); padding: 1rem 0; display: none; }
 
 /* ── MISTAKES PANEL ── */
 .mistake-card {
@@ -664,7 +722,7 @@ select {
     <div class="gate-about">
       <div class="gate-logo"><div class="gate-logo-dot"></div>Albert Einstein College of Medicine</div>
       <h2>Prompt Design<br><em>for Medical Education</em></h2>
-      <p class="gate-desc">AI tools are only as good as the questions you ask them. This guide teaches three evidence-based prompting strategies — Chain of Thought, Chain of Verification, and Verbalized Sampling — with examples drawn from clinical medicine, research, and board preparation.</p>
+      <p class="gate-desc">AI tools are only as good as the questions you ask them. This guide teaches two things: <strong>which prompting technique to use</strong> for a given clinical task, and <strong>how to construct a prompt</strong> that gets you a useful answer. Start with a baseline, work through the content, practice in a real-time playground, then measure your growth.</p>
 
       <div class="gate-authors">
         <div class="gate-author-label">Created by</div>
@@ -692,7 +750,7 @@ select {
     <!-- FORM SECTION -->
     <div class="gate-form">
       <div class="gate-form-title">Enter your details to begin</div>
-      <p class="gate-form-sub">No names or email addresses are collected. Your anonymous code lets us match pre- and post-test scores for curriculum assessment only.</p>
+      <p class="gate-form-sub">No names or email addresses are collected. Your anonymous code, training level, quiz scores, and prompt practice results are stored in a private institutional spreadsheet for curriculum assessment only. Data is not shared or used for any other purpose.</p>
 
       <div class="gate-field">
         <label>Anonymous code <span style="font-weight:400;color:var(--muted)">— create your own</span></label>
@@ -727,52 +785,130 @@ select {
 
 <div class="container">
 
-<!-- HERO -->
-<div class="hero">
-  <div class="hero-inst"><div class="hero-inst-dot"></div>Albert Einstein College of Medicine</div>
-  <h1>Prompt Design<br><em>for Medical Education</em></h1>
-  <p class="hero-sub">AI tools are only as good as the questions you ask them. This guide teaches three evidence-based prompting techniques — how they work, when to use each, and how to apply them to research and clinical medicine.</p>
-  <div class="hero-meta">
-    <span class="hero-author"><strong>Shitij Arora, MD &amp; Sunit Jariwala, MD</strong> · Innovation and Biodesign Program</span>
+<!-- ═══════════════════════════════════════
+     PHASE SHELL — controlled by showPhase()
+     ═══════════════════════════════════════ -->
+
+<!-- PHASE 1: WELCOME (shown after gate, before pre-test starts) -->
+<div id="phase-welcome" class="phase" style="display:none">
+  <div class="phase-hero">
+    <div class="phase-inst"><div class="phase-inst-dot"></div>Albert Einstein College of Medicine</div>
+    <h1 class="phase-title">Prompt Design<br><em>for Medical Education</em></h1>
+    <p class="phase-subtitle">AI tools are only as good as the questions you ask them. This guide teaches two things: <strong>which technique to use</strong> for a clinical task, and <strong>how to construct a prompt</strong> that gets you a useful answer — with a real-time playground to practice.</p>
+
+    <div class="journey-map">
+      <div class="journey-step active">
+        <div class="journey-num">1</div>
+        <div class="journey-label">Baseline assessment</div>
+        <div class="journey-desc">5 questions + write one prompt</div>
+      </div>
+      <div class="journey-arrow">→</div>
+      <div class="journey-step">
+        <div class="journey-num">2</div>
+        <div class="journey-label">Learn the content</div>
+        <div class="journey-desc">Techniques, construction, mistakes</div>
+      </div>
+      <div class="journey-arrow">→</div>
+      <div class="journey-step">
+        <div class="journey-num">3</div>
+        <div class="journey-label">Practice</div>
+        <div class="journey-desc">Real-time prompt playground</div>
+      </div>
+      <div class="journey-arrow">→</div>
+      <div class="journey-step">
+        <div class="journey-num">4</div>
+        <div class="journey-label">Post-test</div>
+        <div class="journey-desc">See how much you grew</div>
+      </div>
+    </div>
+
+    <button class="phase-cta-primary" onclick="showPhase('baseline')">
+      Start baseline assessment →
+    </button>
+    <p class="phase-cta-note">Takes about 5 minutes. Your scores are saved anonymously for curriculum assessment only.</p>
   </div>
-  <a class="hero-ref" href="https://arxiv.org/abs/2402.07927" target="_blank">
-    <div class="hero-ref-dot"></div>Sahoo et al. 2024 — arXiv:2402.07927
-  </a>
 </div>
 
-<!-- PRETEST BANNER — shown after identity gate, hidden after pretest taken -->
-<div class="pretest-banner" id="pretest-banner" style="display:none">
-  <div class="pretest-icon">!</div>
-  <div class="pretest-text">
-    <p><strong>Take the pre-test first.</strong> Answer 5 questions before exploring the guide. Your score is saved — retake after completing the guide to measure your improvement.</p>
-    <button class="pretest-btn" onclick="startPretest()">Start pre-test →</button>
+<!-- PHASE 2: BASELINE (pre-test MCQ + pre-prompt) -->
+<div id="phase-baseline" class="phase phase-focused" style="display:none">
+  <div class="phase-focused-header">
+    <div class="phase-focused-label">Phase 1 of 4 — Baseline assessment</div>
+    <button class="phase-home-btn" onclick="goHome()">← Home</button>
+  </div>
+  <div class="phase-focused-body">
+    <div id="quiz-container"></div>
   </div>
 </div>
 
-<!-- TABS -->
-<div class="tab-row" style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
-  <div style="display:flex; gap:4px; flex-wrap:wrap;">
-    <button class="tab active" onclick="showPanel('techniques', this)">Techniques</button>
-    <button class="tab" onclick="showPanel('decide', this)">Which one?</button>
-    <button class="tab" onclick="showPanel('evaluate', this)">Evaluate yourself</button>
-    <button class="tab" onclick="showPanel('mistakes', this)">Common mistakes</button>
-    <button class="tab" onclick="showPanel('references', this)">References</button>
+<!-- PHASE 3: CONTENT (all learning tabs) -->
+<div id="phase-content" class="phase" style="display:none">
+
+  <!-- TOP BAR -->
+  <div class="content-topbar">
+    <div class="content-progress" id="content-progress">
+      <div class="cp-step done" id="cp-pretest"><span>✓</span> Baseline</div>
+      <div class="cp-step" id="cp-techniques">Techniques</div>
+      <div class="cp-step" id="cp-decide">Which one?</div>
+      <div class="cp-step" id="cp-construct">Construction</div>
+      <div class="cp-step" id="cp-mistakes">Mistakes</div>
+      <div class="cp-step" id="cp-playground">Playground</div>
+      <div class="cp-step locked" id="cp-posttest">🔒 Post-test</div>
+    </div>
+    <button class="phase-home-btn" onclick="goHome()">← Home</button>
   </div>
-  <button onclick="goHome()" style="
-    display:inline-flex; align-items:center; gap:6px;
-    font-family:'DM Sans',sans-serif; font-size:13px; font-weight:500;
-    color:var(--muted); background:var(--bg2);
-    border:0.5px solid var(--border2); border-radius:6px;
-    padding:6px 14px; cursor:pointer; white-space:nowrap;
-    transition:background 0.15s, color 0.15s;
-  " onmouseover="this.style.color='var(--ink)';this.style.background='var(--bg3)'" 
-     onmouseout="this.style.color='var(--muted)';this.style.background='var(--bg2)'">
-    ← Home
-  </button>
+
+  <div id="unlock-banner" style="display:none;background:var(--amber-pale);border:0.5px solid var(--amber-light);border-radius:var(--radius-md);padding:10px 16px;margin-bottom:1rem;font-size:13px;color:var(--amber-dark);"></div>
+
+  <!-- CONTENT TABS -->
+  <div class="content-tabs">
+    <button class="ctab active" id="ctab-techniques" onclick="showContent('techniques', this)">Techniques</button>
+    <button class="ctab" id="ctab-decide"     onclick="showContent('decide', this)">Which one?</button>
+    <button class="ctab" id="ctab-construct"  onclick="showContent('construct', this)">Construction</button>
+    <button class="ctab" id="ctab-mistakes"   onclick="showContent('mistakes', this)">Mistakes</button>
+    <button class="ctab" id="ctab-playground" onclick="showContent('playground', this)">Playground</button>
+    <button class="ctab" id="ctab-references" onclick="showContent('references', this)">References</button>
+  </div>
+
+  <!-- CONTENT PANELS (reusing existing panel divs) -->
+  <div id="content-body"></div>
+
+  <!-- POST-TEST CTA — appears when all tabs visited -->
+  <div id="posttest-cta" style="display:none; margin-top:2rem; padding:2rem; background:var(--teal-pale); border:0.5px solid var(--teal-light); border-radius:var(--radius-xl); text-align:center;">
+    <div style="font-size:24px;margin-bottom:8px">🎉</div>
+    <div style="font-size:20px;font-weight:700;color:var(--teal-dark);margin-bottom:8px">You've completed all the modules</div>
+    <p style="color:var(--muted);font-size:15px;margin-bottom:20px">Time to see how much you've grown. The post-test takes about 3 minutes.</p>
+    <button class="phase-cta-primary" onclick="showPhase('posttest')" style="background:var(--teal-dark);">
+      Take the post-test →
+    </button>
+  </div>
 </div>
 
-<!-- ═══ PANEL 1: TECHNIQUES ═══ -->
-<div id="panel-techniques" class="panel active">
+<!-- PHASE 4: POST-TEST -->
+<div id="phase-posttest" class="phase phase-focused" style="display:none">
+  <div class="phase-focused-header">
+    <div class="phase-focused-label">Phase 4 of 4 — Post-test</div>
+    <button class="phase-home-btn" onclick="goHome()">← Home</button>
+  </div>
+  <div class="phase-focused-body">
+    <div id="posttest-container"></div>
+  </div>
+</div>
+
+<!-- PHASE 5: RESULTS -->
+<div id="phase-results" class="phase phase-focused" style="display:none">
+  <div class="phase-focused-header">
+    <div class="phase-focused-label">Complete</div>
+    <button class="phase-home-btn" onclick="goHome()">← Home</button>
+  </div>
+  <div class="phase-focused-body">
+    <div id="results-container"></div>
+  </div>
+</div>
+
+
+
+<!-- ═══ CONTENT PANELS (hidden - moved into phase-content by JS) ═══ -->
+<div id="panel-techniques" class="panel" style="display:none">
   <div class="eyebrow">Three techniques — <span>click each to expand</span></div>
 
   <!-- CoT -->
@@ -1017,98 +1153,148 @@ select {
   </div>
 </div>
 
-<!-- ═══ PANEL 3: EVALUATE ═══ -->
-<div id="panel-evaluate" class="panel">
-  <div class="eyebrow">Evaluate yourself — <span>three layers</span></div>
+<!-- ═══ PANEL 3: PROMPT CONSTRUCTION ═══ -->
+<div id="panel-construct" class="panel">
+  <div class="eyebrow">Prompt construction — <span>the anatomy of a well-built prompt</span></div>
+  <p class="intro-p">Knowing <em>which</em> technique to use is half the job. The other half is knowing <em>how</em> to write the prompt itself. A well-constructed prompt has six components — each one gives the model something it needs to give you something useful back.</p>
 
-  <div class="eval-tabs">
-    <button class="eval-tab active" onclick="switchEval('quiz')">Pre / post quiz</button>
-    <button class="eval-tab" onclick="switchEval('audit')">Self-audit checklist</button>
-    <button class="eval-tab" onclick="switchEval('rubric')">Prompt scorer</button>
-  </div>
+  <!-- THE SIX COMPONENTS -->
+  <div style="display:grid; gap:12px; margin-bottom:2rem;">
 
-  <!-- QUIZ -->
-  <div id="eval-quiz" class="eval-panel active">
-    <div id="quiz-container"></div>
-  </div>
-
-  <!-- SELF-AUDIT -->
-  <div id="eval-audit" class="eval-panel">
-    <p class="audit-intro">Before you act on any AI output, run through this checklist. Check each item only when you are satisfied. All six must be checked before proceeding.</p>
-    <div class="audit-items" id="audit-items">
-      <div class="audit-item" onclick="toggleAudit(this)">
-        <div class="audit-check"></div>
-        <div class="audit-text">
-          <strong>I gave sufficient context</strong>
-          <span>My prompt included the relevant clinical or research scenario with enough detail for the model to give a specific, applicable answer — not a generic one.</span>
-        </div>
+    <div class="construct-card" id="cc1">
+      <div class="cc-header" onclick="toggleCC('cc1')">
+        <div class="cc-num">1</div>
+        <div class="cc-title">Role</div>
+        <div class="cc-sub">Tell the model who it is</div>
+        <div class="cc-arrow">›</div>
       </div>
-      <div class="audit-item" onclick="toggleAudit(this)">
-        <div class="audit-check"></div>
-        <div class="audit-text">
-          <strong>I selected the right technique</strong>
-          <span>I used CoT for reasoning, CoVe for fact-sensitive outputs, or VS for open-ended tasks — not the same technique by default for every prompt.</span>
-        </div>
-      </div>
-      <div class="audit-item" onclick="toggleAudit(this)">
-        <div class="audit-check"></div>
-        <div class="audit-text">
-          <strong>I specified a format</strong>
-          <span>I told the model how to structure the output — step-by-step list, table, bullet points, word limit — so the response is usable, not a wall of text.</span>
-        </div>
-      </div>
-      <div class="audit-item" onclick="toggleAudit(this)">
-        <div class="audit-check"></div>
-        <div class="audit-text">
-          <strong>I know enough to spot a wrong answer</strong>
-          <span>I have enough background knowledge on this topic to recognize if the output contains a significant error. If not, I will independently verify before acting on it.</span>
-        </div>
-      </div>
-      <div class="audit-item" onclick="toggleAudit(this)">
-        <div class="audit-check"></div>
-        <div class="audit-text">
-          <strong>I did not include PHI</strong>
-          <span>My prompt contains no patient names, MRNs, dates of service, or any identifying information. I described the scenario in general terms only.</span>
-        </div>
-      </div>
-      <div class="audit-item" onclick="toggleAudit(this)">
-        <div class="audit-check"></div>
-        <div class="audit-text">
-          <strong>I will verify any facts I act on</strong>
-          <span>Any specific doses, criteria, thresholds, or citations in this output will be cross-checked against a primary source before I use them clinically or academically.</span>
+      <div class="cc-body">
+        <p>Assigning a role shapes the model's vocabulary, level of detail, and framing. A prompt that starts "You are an attending hospitalist" produces different output than one that starts "You are a patient educator." Use role when the audience or expertise level of the response matters.</p>
+        <div class="cc-example">
+          <div class="cc-ex-label bad">Without role</div>
+          <div class="cc-ex-text">"Explain the management of sepsis."</div>
+          <div class="cc-ex-label good" style="margin-top:10px">With role</div>
+          <div class="cc-ex-text">"You are an attending in the medical ICU. Explain the Surviving Sepsis Campaign bundle to a third-year medical student who understands basic physiology but has not yet done critical care."</div>
         </div>
       </div>
     </div>
-    <div class="audit-gate" id="audit-gate">Complete all 6 items to proceed</div>
+
+    <div class="construct-card" id="cc2">
+      <div class="cc-header" onclick="toggleCC('cc2')">
+        <div class="cc-num">2</div>
+        <div class="cc-title">Context</div>
+        <div class="cc-sub">Give the model enough to work with</div>
+        <div class="cc-arrow">›</div>
+      </div>
+      <div class="cc-body">
+        <p>Context anchors the response to your specific situation. Without it, the model gives you a generic answer. With it, you get something you can actually use. Include relevant background — clinical scenario, study design, patient population, what you already know.</p>
+        <div class="cc-example">
+          <div class="cc-ex-label bad">Without context</div>
+          <div class="cc-ex-text">"What are the causes of hyponatremia?"</div>
+          <div class="cc-ex-label good" style="margin-top:10px">With context</div>
+          <div class="cc-ex-text">"I am a second-year student preparing for my internal medicine shelf. I understand the basic pathophysiology of SIADH but keep confusing it with cerebral salt wasting. Give me a comparison focused on the key distinguishing features that appear most often on shelf exams."</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="construct-card" id="cc3">
+      <div class="cc-header" onclick="toggleCC('cc3')">
+        <div class="cc-num">3</div>
+        <div class="cc-title">Task</div>
+        <div class="cc-sub">Be specific about what you want</div>
+        <div class="cc-arrow">›</div>
+      </div>
+      <div class="cc-body">
+        <p>The task is the core instruction. Vague tasks produce vague outputs. Specific tasks produce specific outputs. The difference between "tell me about" and "compare X and Y on dimensions A, B, C" is the difference between a textbook paragraph and a usable answer.</p>
+        <div class="cc-example">
+          <div class="cc-ex-label bad">Vague task</div>
+          <div class="cc-ex-text">"Tell me about GLP-1 agonists."</div>
+          <div class="cc-ex-label good" style="margin-top:10px">Specific task</div>
+          <div class="cc-ex-text">"Compare semaglutide and tirzepatide on three dimensions: mechanism of action, cardiovascular outcomes evidence, and dosing considerations for patients with CKD stage 3."</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="construct-card" id="cc4">
+      <div class="cc-header" onclick="toggleCC('cc4')">
+        <div class="cc-num">4</div>
+        <div class="cc-title">Format</div>
+        <div class="cc-sub">Specify how the output should be structured</div>
+        <div class="cc-arrow">›</div>
+      </div>
+      <div class="cc-body">
+        <p>If you don't specify format, the model chooses for you — and it usually chooses verbose prose. Specifying format saves you time and makes the output immediately usable. Common options: bullet list, table, numbered steps, SOAP note, one paragraph, 150 words max.</p>
+        <div class="cc-example">
+          <div class="cc-ex-label bad">No format instruction</div>
+          <div class="cc-ex-text">"Explain the Ottawa Ankle Rules."</div>
+          <div class="cc-ex-label good" style="margin-top:10px">With format instruction</div>
+          <div class="cc-ex-text">"Explain the Ottawa Ankle Rules as a 5-point checklist I can memorize before my emergency medicine shelf. Each point should be one sentence maximum."</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="construct-card" id="cc5">
+      <div class="cc-header" onclick="toggleCC('cc5')">
+        <div class="cc-num">5</div>
+        <div class="cc-title">Constraints</div>
+        <div class="cc-sub">Add guardrails that shape the response</div>
+        <div class="cc-arrow">›</div>
+      </div>
+      <div class="cc-body">
+        <p>Constraints narrow the solution space so the model doesn't stray. They can be about audience ("assume no pharmacology background"), scope ("focus only on outpatient management"), length ("under 200 words"), or tone ("avoid jargon"). The best constraints are specific and non-redundant.</p>
+        <div class="cc-example">
+          <div class="cc-ex-label bad">No constraints</div>
+          <div class="cc-ex-text">"How do I counsel a patient starting metformin?"</div>
+          <div class="cc-ex-label good" style="margin-top:10px">With constraints</div>
+          <div class="cc-ex-text">"How do I counsel a patient starting metformin? Assume the patient is 58 years old, has low health literacy, and is anxious about side effects. Focus only on the first two weeks. Keep it under 150 words and avoid medical jargon."</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="construct-card" id="cc6">
+      <div class="cc-header" onclick="toggleCC('cc6')">
+        <div class="cc-num">6</div>
+        <div class="cc-title">Verification step</div>
+        <div class="cc-sub">Build in a check before you trust the output</div>
+        <div class="cc-arrow">›</div>
+      </div>
+      <div class="cc-body">
+        <p>For any factual claim you might act on clinically, add a verification instruction at the end of your prompt. This is especially important for specific numbers — drug doses, thresholds, trial results. Ask the model to flag anything it's uncertain about, or to list the specific claims you should independently verify.</p>
+        <div class="cc-example">
+          <div class="cc-ex-label bad">No verification</div>
+          <div class="cc-ex-text">"What is the recommended vancomycin trough for a patient with MRSA bacteremia?"</div>
+          <div class="cc-ex-label good" style="margin-top:10px">With verification</div>
+          <div class="cc-ex-text">"What is the recommended vancomycin AUC/MIC target for MRSA bacteremia per the 2020 ASHP/IDSA guidelines? After answering, list any specific numerical values I should verify against the primary guideline before using clinically."</div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
-  <!-- RUBRIC SCORER -->
-  <div id="eval-rubric" class="eval-panel">
-    <p class="rubric-intro">Write a prompt for a clinical or research task, then submit it for scoring. An AI evaluator will assess the <em>structure and craft</em> of your prompt — not the clinical content — across five dimensions. Use this to build better prompting habits.</p>
-
-    <label class="scenario-select-label">Choose a scenario to prompt about:</label>
-    <select id="rubric-scenario">
-      <option value="">— Select a scenario —</option>
-      <optgroup label="Clinical">
-        <option value="A 19-year-old with fever, stiff neck, and photophobia presenting to the ED">19-year-old with meningitis symptoms</option>
-        <option value="A 45-year-old with new-onset type 2 diabetes needing medication counseling">45-year-old with new-onset diabetes</option>
-        <option value="A 60-year-old post-MI patient being discharged on multiple new medications">60-year-old post-MI discharge counseling</option>
-      </optgroup>
-      <optgroup label="Research">
-        <option value="Designing a study on burnout rates in medical students at Einstein">Medical student burnout study design</option>
-        <option value="Summarizing recent literature on GLP-1 agonists and cardiovascular outcomes">GLP-1 agonists and cardiovascular outcomes literature</option>
-        <option value="Generating a research question about social determinants and pediatric asthma">Research question on pediatric asthma disparities</option>
-      </optgroup>
-    </select>
-
-    <label class="scenario-select-label" style="margin-top:10px">Write your prompt:</label>
-    <textarea class="rubric-textarea" id="rubric-input" placeholder="Write the prompt you would send to an AI for this scenario..."></textarea>
-    <button class="rubric-submit" id="rubric-btn" onclick="scorePrompt()">Score my prompt →</button>
-
-    <div class="rubric-loading" id="rubric-loading">Evaluating your prompt...</div>
-    <div class="rubric-results" id="rubric-results"></div>
+  <!-- PUTTING IT TOGETHER -->
+  <div class="construct-full" id="cc-full">
+    <div class="cc-full-header" onclick="toggleCC('cc-full')">
+      <div style="font-weight:600;font-size:16px;color:var(--ink)">Putting it all together</div>
+      <div style="font-size:13px;color:var(--muted)">A fully constructed prompt using all six components</div>
+      <div class="cc-arrow" style="margin-left:auto">›</div>
+    </div>
+    <div class="cc-body">
+      <p style="font-size:13px;color:var(--muted);margin-bottom:12px">Not every prompt needs all six — but knowing each component helps you diagnose why a prompt isn't working. Here's what a fully constructed prompt looks like:</p>
+      <div style="background:var(--bg);border:0.5px solid var(--border2);border-radius:var(--radius-md);padding:16px;font-size:14px;line-height:1.75;color:var(--ink);">
+        <span style="background:#DBEAFE;border-radius:3px;padding:1px 5px;font-size:11px;font-weight:700;color:#1E40AF;margin-right:4px">ROLE</span>You are an attending cardiologist.<br>
+        <span style="background:#D1FAE5;border-radius:3px;padding:1px 5px;font-size:11px;font-weight:700;color:#065F46;margin-right:4px">CONTEXT</span>I am a third-year student on cardiology rotation. My patient is a 72-year-old with HFrEF (EF 30%), CKD stage 3, and newly diagnosed atrial fibrillation.<br>
+        <span style="background:#FEF3C7;border-radius:3px;padding:1px 5px;font-size:11px;font-weight:700;color:#92400E;margin-right:4px">TASK</span>Explain the anticoagulation decision — specifically whether to use a DOAC or warfarin — step by step, reasoning through the evidence for each choice.<br>
+        <span style="background:#EDE9FE;border-radius:3px;padding:1px 5px;font-size:11px;font-weight:700;color:#5B21B6;margin-right:4px">FORMAT</span>Use numbered reasoning steps, then a final recommendation.<br>
+        <span style="background:#FCE7F3;border-radius:3px;padding:1px 5px;font-size:11px;font-weight:700;color:#9D174D;margin-right:4px">CONSTRAINTS</span>Focus on the CKD complication — assume I already understand basic AF anticoagulation. Keep under 250 words.<br>
+        <span style="background:#FEE2E2;border-radius:3px;padding:1px 5px;font-size:11px;font-weight:700;color:#991B1B;margin-right:4px">VERIFY</span>After your recommendation, list the specific dosing thresholds I should verify against current guidelines before applying clinically.
+      </div>
+    </div>
   </div>
+
 </div>
+
+<!-- ═══ PANEL 3b: EVALUATE ═══ -->
+<!-- panel-evaluate removed — post-test lives in phase-posttest -->
 
 <!-- ═══ PANEL 4: COMMON MISTAKES ═══ -->
 <div id="panel-mistakes" class="panel">
@@ -1188,7 +1374,57 @@ select {
   </div>
 </div>
 
-<!-- ═══ PANEL 5: REFERENCES ═══ -->
+<!-- ═══ PANEL 6: PLAYGROUND ═══ -->
+<div id="panel-playground" class="panel">
+  <div class="eyebrow">Playground — <span>practice with real-time scoring</span></div>
+  <p class="intro-p">No stakes, no saving — just practice. Pick any scenario, write a prompt using the construction framework you just learned, and get instant feedback across all five dimensions. Try to improve your score by iterating on your prompt.</p>
+
+  <div style="background:#F0F9FF;border:1px solid #BAE6FD;border-radius:10px;padding:14px 18px;margin-bottom:1.5rem;font-size:14px;line-height:1.6;">
+    <strong>💡 How to use this:</strong> Pick a scenario → write your prompt → hit Score → read the feedback → rewrite → score again. Watch your numbers move. The goal is to see at least 3 dimensions score 4 or above before moving to the post-test.
+  </div>
+
+  <div style="margin-bottom:1rem;">
+    <label class="scenario-select-label">Choose a scenario:</label>
+    <select id="pg-scenario" style="width:100%;padding:10px 14px;border:0.5px solid var(--border2);border-radius:var(--radius-md);font-family:inherit;font-size:14px;background:var(--bg2);color:var(--ink);margin-top:6px;">
+      <option value="">— Select a scenario —</option>
+      <optgroup label="Clinical — Diagnosis">
+        <option value="A 28-year-old woman presents with fatigue, weight gain, cold intolerance, and constipation for 3 months">28F with fatigue, weight gain, cold intolerance</option>
+        <option value="A 65-year-old man with 40 pack-year smoking history presents with a 3cm spiculated lung nodule on CT chest">65M with spiculated lung nodule on CT</option>
+        <option value="A 19-year-old college student presents with fever, severe sore throat, and posterior cervical lymphadenopathy">19-year-old with fever and lymphadenopathy</option>
+      </optgroup>
+      <optgroup label="Clinical — Management">
+        <option value="A 45-year-old with new-onset type 2 diabetes needing medication counseling">45-year-old with new-onset type 2 diabetes</option>
+        <option value="A 60-year-old post-MI patient being discharged on multiple new medications">60-year-old post-MI discharge counseling</option>
+        <option value="A 72-year-old with HFrEF (EF 30%) and new atrial fibrillation requiring anticoagulation decision">72-year-old with HFrEF and new AFib — anticoagulation</option>
+      </optgroup>
+      <optgroup label="Research">
+        <option value="Designing a prospective cohort study on social determinants of health and pediatric asthma outcomes in the Bronx">Study design: SDOH and pediatric asthma</option>
+        <option value="Summarizing cardiovascular outcomes trials for GLP-1 receptor agonists including LEADER, SUSTAIN-6, and EMPA-REG">Literature summary: GLP-1 CV outcomes trials</option>
+        <option value="Generating a novel research question about burnout and AI tool use among internal medicine residents">Research question: burnout and AI use in residents</option>
+      </optgroup>
+      <optgroup label="Board prep">
+        <option value="Understanding the differences between Type 1 and Type 2 RTA for the internal medicine shelf exam">USMLE/shelf: Type 1 vs Type 2 RTA</option>
+        <option value="Memorizing the causes of an elevated anion gap metabolic acidosis using a mnemonic for shelf exams">Shelf prep: AGMA mnemonic and causes</option>
+      </optgroup>
+    </select>
+  </div>
+
+  <div style="margin-bottom:1rem;">
+    <label class="scenario-select-label">Your prompt:</label>
+    <textarea id="pg-input" style="width:100%;min-height:120px;padding:12px 14px;border:0.5px solid var(--border2);border-radius:var(--radius-md);font-family:inherit;font-size:14px;resize:vertical;box-sizing:border-box;margin-top:6px;" placeholder="Write your prompt here. Try using role, context, task, format, constraints, and a verification step..."></textarea>
+  </div>
+
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:1rem;flex-wrap:wrap;">
+    <button id="pg-btn" onclick="playgroundScore()" style="padding:10px 24px;background:#2563EB;color:#fff;border:none;border-radius:8px;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;">Score my prompt →</button>
+    <button onclick="clearPlayground()" style="padding:10px 18px;background:var(--bg2);color:var(--muted);border:0.5px solid var(--border2);border-radius:8px;font-family:inherit;font-size:14px;cursor:pointer;">Clear</button>
+    <span id="pg-attempt-count" style="font-size:13px;color:var(--muted);"></span>
+  </div>
+
+  <div id="pg-loading" style="display:none;font-size:14px;color:var(--muted);padding:8px 0;">Scoring your prompt...</div>
+  <div id="pg-history" style="display:flex;flex-direction:column;gap:12px;"></div>
+</div>
+
+<!-- ═══ PANEL 7: REFERENCES ═══ -->
 <div id="panel-references" class="panel">
   <div class="eyebrow">Source papers — <span>the evidence behind these techniques</span></div>
   <p class="intro-p">All techniques in this guide are training-free — they work with any major LLM via natural language alone. The primary organizing reference is the Sahoo et al. systematic survey.</p>
@@ -1232,8 +1468,103 @@ select {
    ══════════════════════════════════════════════════ */
 var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbziqecJULzEKdi_yi4gonl5NnSm12ufZkzkiQWV9aypgpzUdz2MNP2Zof3DuM3G7cDg/exec';
 
+/* ══════════════════════════════
+   PHASE CONTROLLER
+   ══════════════════════════════ */
+var PHASES = ['welcome','baseline','content','posttest','results'];
+var currentPhase = null;
+
+function showPhase(phase) {
+  PHASES.forEach(function(p) {
+    var el = document.getElementById('phase-' + p);
+    if (el) el.style.display = 'none';
+  });
+  currentPhase = phase;
+  var target = document.getElementById('phase-' + phase);
+  if (target) { target.style.display = 'block'; window.scrollTo(0,0); }
+
+  if (phase === 'baseline') {
+    initQuiz(true);
+  }
+  if (phase === 'content') {
+    mountContentPanels();
+    showContent('techniques', document.getElementById('ctab-techniques'));
+    updateProgressPills();
+  }
+  if (phase === 'posttest') {
+    initPostTest();
+  }
+}
+
+function mountContentPanels() {
+  var body = document.getElementById('content-body');
+  if (!body) return;
+  ['techniques','decide','construct','mistakes','playground','references'].forEach(function(id) {
+    var panel = document.getElementById('panel-' + id);
+    if (panel && panel.parentNode !== body) {
+      body.appendChild(panel);
+      panel.style.display = 'none';
+    }
+  });
+}
+
+function showContent(id, btn) {
+  ['techniques','decide','construct','mistakes','playground','references'].forEach(function(pid) {
+    var p = document.getElementById('panel-' + pid);
+    if (p) p.style.display = 'none';
+  });
+  var target = document.getElementById('panel-' + id);
+  if (target) target.style.display = 'block';
+  document.querySelectorAll('.ctab').forEach(function(t){ t.classList.remove('active'); });
+  if (btn) btn.classList.add('active');
+  tabsVisited[id] = true;
+  updateProgressPills();
+  window.scrollTo(0, 0);
+}
+
+function updateProgressPills() {
+  var steps = ['techniques','decide','construct','mistakes','playground'];
+  steps.forEach(function(s) {
+    var el = document.getElementById('cp-' + s);
+    if (el) el.className = 'cp-step' + (tabsVisited[s] ? ' done' : '');
+  });
+  var allDone = steps.every(function(s){ return tabsVisited[s]; }) && prePromptDone;
+  var postEl = document.getElementById('cp-posttest');
+  if (postEl) postEl.className = 'cp-step' + (allDone ? ' done' : ' locked');
+  var cta = document.getElementById('posttest-cta');
+  if (cta) cta.style.display = allDone ? 'block' : 'none';
+  var banner = document.getElementById('unlock-banner');
+  if (banner) {
+    if (!allDone) {
+      var missing = steps.filter(function(s){ return !tabsVisited[s]; }).map(function(s){
+        return {techniques:'Techniques',decide:'Which one?',construct:'Construction',mistakes:'Mistakes',playground:'Playground'}[s];
+      });
+      if (!prePromptDone) missing.push('baseline prompt');
+      banner.style.display = missing.length ? 'block' : 'none';
+      banner.textContent = missing.length ? 'Still needed before post-test: ' + missing.join(', ') + '.' : '';
+    } else {
+      banner.style.display = 'none';
+    }
+  }
+}
+
+/* kept for compatibility */
+function updateProgress() { updateProgressPills(); }
+function unlockTabs() { showPhase('content'); }
+function tryShowPanel(id, btn) { showContent(id, btn); }
+function showPanel(id, btn) { showContent(id, btn); }
+function startPretest() { showPhase('baseline'); }
+
 /* ── STATE ── */
 var pretestScore = null;
+var pretestPromptScore = null;   // silent pre-prompt scorer result
+var posttestPromptScore = null;  // post-prompt scorer result
+var tabsVisited = {};            // tracks which tabs have been opened
+var prePromptDone = false;       // pre-prompt written and scored
+
+var PRE_SCENARIO  = '45-year-old with new-onset type 2 diabetes needing medication counseling';
+var POST_SCENARIO = '60-year-old post-MI patient being discharged on multiple new medications';
+
 // Ensure gate starts at top on mobile
 window.addEventListener('load', function() {
   var overlay = document.getElementById('gate-overlay');
@@ -1265,8 +1596,7 @@ function submitGate() {
   identityComplete = true;
 
   document.getElementById('gate-overlay').style.display = 'none';
-  document.getElementById('pretest-banner').style.display = 'flex';
-
+  showPhase('welcome');
   logEvent('session_start', { code: student.name, year: student.year, student_id: student.id });
 }
 
@@ -1295,30 +1625,103 @@ function showGate() {
   overlay.scrollTop = 0;
 }
 function goHome() {
-  if (!confirm('Return to the home screen? Your progress in this session will be reset.')) return;
-  // Reset state
   student = { name: '', year: '', email: '', id: '' };
   identityComplete = false;
   pretestScore = null;
+  pretestPromptScore = null;
+  posttestPromptScore = null;
+  tabsVisited = {};
+  prePromptDone = false;
   quizScores = [];
-  isPretest = true;
-  // Show gate, hide main content
-  showGate();
-  document.getElementById('pretest-banner').style.display = 'none';
-  // Reset gate fields
+  isPretest = false;
+  quizInitialized = false;
+  pgAttempts = 0;
+  PHASES.forEach(function(p) {
+    var el = document.getElementById('phase-' + p);
+    if (el) el.style.display = 'none';
+  });
   var gname = document.getElementById('g-name');
   var gyear = document.getElementById('g-year');
   if (gname) { gname.value = ''; gname.style.borderColor = ''; }
   if (gyear) { gyear.value = ''; gyear.style.borderColor = ''; }
-  // Reset to first tab
-  showPanel('techniques', document.querySelector('.tab'));
+  showGate();
 }
-function showPanel(id, btn) {
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('panel-' + id).classList.add('active');
-  btn.classList.add('active');
-  if (id === 'evaluate') initQuizIfNeeded();
+
+/* ── CONSTRUCTION CARDS ── */
+function toggleCC(id) { document.getElementById(id).classList.toggle('open'); }
+
+/* ── PLAYGROUND ── */
+var pgAttempts = 0;
+
+async function playgroundScore() {
+  var scenario = document.getElementById('pg-scenario').value;
+  var prompt   = document.getElementById('pg-input').value.trim();
+  if (!scenario) { alert('Please select a scenario first.'); return; }
+  if (!prompt || prompt.length < 20) { alert('Please write a prompt of at least 20 characters.'); return; }
+  document.getElementById('pg-btn').disabled = true;
+  document.getElementById('pg-loading').style.display = 'block';
+  try {
+    var result = await callScorer(scenario, prompt);
+    var overall = calcOverall(result);
+    pgAttempts++;
+    logEvent('prompt_scored', {
+      scenario: scenario, prompt_length: prompt.length, overall_score: overall, attempt: pgAttempts,
+      context_sufficiency: result.context_sufficiency.score,
+      technique_selection: result.technique_selection.score,
+      format_instruction:  result.format_instruction.score,
+      constraint_clarity:  result.constraint_clarity.score,
+      output_verifiability:result.output_verifiability.score
+    });
+    document.getElementById('pg-attempt-count').textContent = 'Attempt ' + pgAttempts;
+    var dims = [
+      {key:'context_sufficiency',label:'Context'},
+      {key:'technique_selection',label:'Technique'},
+      {key:'format_instruction', label:'Format'},
+      {key:'constraint_clarity', label:'Constraints'},
+      {key:'output_verifiability',label:'Verifiability'}
+    ];
+    var dimHtml = dims.map(function(d) {
+      var s = result[d.key].score;
+      var bar = Math.round((s/5)*100);
+      var col = s >= 4 ? 'var(--green-dark)' : s >= 3 ? '#F59E0B' : '#E24B4A';
+      return '<div style="margin-bottom:8px">' +
+        '<div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:2px">' +
+          '<span style="color:var(--muted)">' + d.label + '</span>' +
+          '<span style="font-weight:600;color:' + col + '">' + s + '/5</span>' +
+        '</div>' +
+        '<div style="height:5px;background:var(--bg3);border-radius:3px;overflow:hidden">' +
+          '<div style="height:100%;width:' + bar + '%;background:' + col + ';border-radius:3px"></div>' +
+        '</div>' +
+        '<div style="font-size:12px;color:var(--muted);margin-top:2px">' + result[d.key].feedback + '</div>' +
+      '</div>';
+    }).join('');
+    var oc = overall >= 4 ? 'var(--green-dark)' : overall >= 3 ? '#F59E0B' : '#E24B4A';
+    var card = '<div style="background:var(--bg2);border:0.5px solid var(--border2);border-radius:var(--radius-lg);padding:16px">' +
+      '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">' +
+        '<span style="font-size:13px;font-weight:600;color:var(--muted)">Attempt ' + pgAttempts + '</span>' +
+        '<span style="font-size:22px;font-weight:700;color:' + oc + '">' + overall.toFixed(1) + ' / 5</span>' +
+      '</div>' + dimHtml +
+      '<div style="margin-top:10px;padding-top:10px;border-top:0.5px solid var(--border2)">' +
+        '<div style="font-size:12px;color:var(--muted);margin-bottom:4px;font-weight:600">Your prompt:</div>' +
+        '<div style="font-size:12px;color:var(--ink);font-style:italic;line-height:1.5">' + prompt.replace(/</g,'&lt;').replace(/>/g,'&gt;') + '</div>' +
+      '</div></div>';
+    document.getElementById('pg-history').insertAdjacentHTML('afterbegin', card);
+    tabsVisited['playground'] = true;
+    updateProgress();
+  } catch(e) {
+    alert('Scoring failed: ' + e.message + '. Please try again.');
+  } finally {
+    document.getElementById('pg-btn').disabled = false;
+    document.getElementById('pg-loading').style.display = 'none';
+  }
+}
+
+function clearPlayground() {
+  document.getElementById('pg-input').value = '';
+  document.getElementById('pg-scenario').value = '';
+  document.getElementById('pg-history').innerHTML = '';
+  document.getElementById('pg-attempt-count').textContent = '';
+  pgAttempts = 0;
 }
 
 /* ── ACCORDION ── */
@@ -1455,32 +1858,52 @@ function copyDecision(track) {
   if (btn) { btn.textContent = 'Copied ✓'; setTimeout(function(){ btn.textContent = 'Copy prompt ↗'; }, 2000); }
 }
 
-/* ── EVAL TABS ── */
-function switchEval(id) {
-  ['quiz','audit','rubric'].forEach(function(t) {
-    document.getElementById('eval-' + t).classList.remove('active');
-  });
-  document.getElementById('eval-' + id).classList.add('active');
-  document.querySelectorAll('.eval-tab').forEach(function(tab) {
-    var onclick = tab.getAttribute('onclick') || '';
-    tab.classList.toggle('active', onclick.includes("'" + id + "'"));
-  });
-  if (id === 'quiz') initQuizIfNeeded();
+/* ── POST-TEST ── */
+function initPostTest() {
+  currentPhase = 'posttest';
+  var c = document.getElementById('posttest-container');
+  if (c) c.innerHTML = '';
+  initQuiz(false);
 }
 
-/* ── PRETEST ── */
-function startPretest() {
-  document.getElementById('pretest-banner').style.display = 'none';
-  /* activate the Evaluate yourself tab */
-  document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
-  document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
-  document.getElementById('panel-evaluate').classList.add('active');
-  document.querySelectorAll('.tab').forEach(function(t){
-    if (t.textContent.toLowerCase().includes('evaluate')) t.classList.add('active');
-  });
-  /* activate quiz sub-tab */
-  switchEval('quiz');
-  initQuiz(true);
+function getQuizContainer() {
+  if (currentPhase === 'posttest') return document.getElementById('posttest-container');
+  return document.getElementById('quiz-container');
+}
+
+function renderQ() {
+  quizAnswered = false;
+  var q = quizData[currentQ];
+  var isLast = currentQ === quizData.length - 1;
+  var dots = quizData.map(function(_,i) {
+    return '<div class="qdot' + (i < currentQ ? ' done' : i === currentQ ? ' current' : '') + '"></div>';
+  }).join('');
+  var c = getQuizContainer(); if (!c) return;
+  c.innerHTML =
+    (isPretest && currentQ === 0 ? '<div style="font-size:13px;color:var(--muted);padding:10px 13px;background:var(--amber-pale);border-radius:var(--radius-md);border:0.5px solid var(--amber-light);margin-bottom:14px">Baseline: answer without using the guide. Your score will be saved and compared to your post-test score.</div>' :
+     !isPretest && currentQ === 0 ? '<div style="font-size:13px;color:var(--muted);padding:10px 13px;background:var(--teal-pale);border-radius:var(--radius-md);border:0.5px solid var(--teal-light);margin-bottom:14px">Post-test: answer from what you\'ve learned. Your score will be compared to your baseline.</div>' : '') +
+    '<div class="quiz-q">Q' + (currentQ+1) + ' of ' + quizData.length + ': ' + q.q + '</div>' +
+    '<div class="quiz-options">' + q.opts.map(function(o,i) {
+      return '<button class="quiz-opt" onclick="answerQ(' + i + ')">' + o + '</button>';
+    }).join('') + '</div>' +
+    '<div class="quiz-feedback" id="qfb">' + q.feedback + '</div>' +
+    '<div class="quiz-nav">' +
+      '<div class="quiz-dots">' + dots + '</div>' +
+      '<button class="quiz-btn" id="qnext" onclick="nextQ()" disabled>' + (isLast ? 'See results' : 'Next →') + '</button>' +
+    '</div>';
+}
+
+function answerQ(i) {
+  if (quizAnswered) return;
+  quizAnswered = true;
+  var q = quizData[currentQ];
+  var opts = document.querySelectorAll('.quiz-opt');
+  opts[i].classList.add(i === q.correct ? 'correct' : 'wrong');
+  if (i !== q.correct) opts[q.correct].classList.add('correct');
+  opts.forEach(function(o){ o.disabled = true; });
+  document.getElementById('qfb').style.display = 'block';
+  document.getElementById('qnext').disabled = false;
+  quizScores.push(i === q.correct);
 }
 
 /* ── QUIZ ── */
@@ -1509,46 +1932,15 @@ var quizData = [
 
 var currentQ = 0, quizAnswered = false, quizScores = [], isPretest = false, quizInitialized = false;
 
-function initQuizIfNeeded() { if (!quizInitialized) { initQuiz(false); } }
+function initQuizIfNeeded() {
+  if (!quizInitialized) { initQuiz(false); }
+}
 
 function initQuiz(pretest) {
   isPretest = pretest;
   currentQ = 0; quizAnswered = false; quizScores = [];
   quizInitialized = true;
   renderQ();
-}
-
-function renderQ() {
-  quizAnswered = false;
-  var q = quizData[currentQ];
-  var isLast = currentQ === quizData.length - 1;
-  var dots = quizData.map(function(_,i) {
-    return '<div class="qdot' + (i < currentQ ? ' done' : i === currentQ ? ' current' : '') + '"></div>';
-  }).join('');
-  document.getElementById('quiz-container').innerHTML =
-    (isPretest && currentQ === 0 ? '<div style="font-size:13px;color:var(--muted);padding:10px 13px;background:var(--amber-pale);border-radius:var(--radius-md);border:0.5px solid var(--amber-light);margin-bottom:14px">Pre-test: answer without using the guide. Your score will be saved and compared to your post-test score.</div>' : '') +
-    '<div class="quiz-q">Q' + (currentQ+1) + ' of ' + quizData.length + ': ' + q.q + '</div>' +
-    '<div class="quiz-options">' + q.opts.map(function(o,i) {
-      return '<button class="quiz-opt" onclick="answerQ(' + i + ')">' + o + '</button>';
-    }).join('') + '</div>' +
-    '<div class="quiz-feedback" id="qfb">' + q.feedback + '</div>' +
-    '<div class="quiz-nav">' +
-      '<div class="quiz-dots">' + dots + '</div>' +
-      '<button class="quiz-btn" id="qnext" onclick="nextQ()" disabled>' + (isLast ? 'See results' : 'Next →') + '</button>' +
-    '</div>';
-}
-
-function answerQ(i) {
-  if (quizAnswered) return;
-  quizAnswered = true;
-  var q = quizData[currentQ];
-  var opts = document.querySelectorAll('.quiz-opt');
-  opts[i].classList.add(i === q.correct ? 'correct' : 'wrong');
-  if (i !== q.correct) opts[q.correct].classList.add('correct');
-  opts.forEach(function(o){ o.disabled = true; });
-  document.getElementById('qfb').style.display = 'block';
-  document.getElementById('qnext').disabled = false;
-  quizScores.push(i === q.correct);
 }
 
 function nextQ() {
@@ -1563,169 +1955,228 @@ function showResults() {
             score >= 3 ? 'Good foundation. Review the explanations for any you missed, then explore the guide.' :
             'The guide will help. Work through the Techniques and Which One? tabs, then retake.';
 
-  var deltaHtml = '';
-  if (!isPretest && pretestScore !== null) {
-    var delta = score - pretestScore;
-    var deltaCls = delta > 0 ? 'delta-up' : delta === 0 ? 'delta-same' : 'delta-down';
-    var deltaText = delta > 0 ? '↑ ' + delta + ' from pre-test' : delta === 0 ? 'Same as pre-test' : '↓ ' + Math.abs(delta) + ' from pre-test';
-    deltaHtml = '<div class="score-delta ' + deltaCls + '">' + deltaText + '</div><br>';
-  }
-
   /* ── LOG TO SHEETS ── */
-  var questionBreakdown = quizData.map(function(q, i) {
-    return { q: i + 1, correct: quizScores[i] ? 1 : 0 };
-  });
   if (isPretest) {
     logEvent('pretest_complete', {
-      score: score,
-      total: quizData.length,
-      pct: pct,
+      score: score, total: quizData.length, pct: pct,
       q1: quizScores[0]?1:0, q2: quizScores[1]?1:0,
-      q3: quizScores[2]?1:0, q4: quizScores[3]?1:0,
-      q5: quizScores[4]?1:0
+      q3: quizScores[2]?1:0, q4: quizScores[3]?1:0, q5: quizScores[4]?1:0
     });
     pretestScore = score;
-  } else {
-    logEvent('posttest_complete', {
-      score: score,
-      total: quizData.length,
-      pct: pct,
-      pretest_score: pretestScore,
-      delta: pretestScore !== null ? score - pretestScore : null,
-      q1: quizScores[0]?1:0, q2: quizScores[1]?1:0,
-      q3: quizScores[2]?1:0, q4: quizScores[3]?1:0,
-      q5: quizScores[4]?1:0
-    });
+
+    // After pre-test MCQs: show pre-prompt step
+    getQuizContainer().innerHTML =
+      '<div class="score-box">' +
+        '<div class="score-num">' + score + ' / ' + quizData.length + '</div>' +
+        '<div class="score-msg">' + msg + '</div>' +
+        '<div style="margin-top:18px;padding:16px;background:var(--amber-pale);border:0.5px solid var(--amber-light);border-radius:var(--radius-md)">' +
+          '<p style="font-weight:600;margin:0 0 6px">One more step before you explore the guide</p>' +
+          '<p style="font-size:14px;color:var(--muted);margin:0 0 12px">Write a prompt for the scenario below. Your score will be saved silently and revealed alongside your post-test prompt score at the end.</p>' +
+          '<div style="font-size:14px;font-weight:500;color:var(--ink);padding:10px 14px;background:var(--bg2);border-radius:var(--radius-md);margin-bottom:12px;border:0.5px solid var(--border2)">📋 ' + PRE_SCENARIO + '</div>' +
+          '<textarea id="pre-prompt-input" style="width:100%;min-height:100px;padding:10px 14px;border:0.5px solid var(--border2);border-radius:var(--radius-md);font-family:inherit;font-size:14px;resize:vertical;box-sizing:border-box;" placeholder="Write your prompt for this scenario..."></textarea>' +
+          '<button id="pre-prompt-btn" onclick="submitPrePrompt()" style="margin-top:10px;padding:10px 22px;background:#2563EB;color:#fff;border:none;border-radius:8px;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;">Submit prompt &amp; start exploring →</button>' +
+          '<div id="pre-prompt-loading" style="display:none;font-size:13px;color:var(--muted);margin-top:8px;">Scoring your prompt...</div>' +
+        '</div>' +
+      '</div>';
+    quizInitialized = false;
+    return;
   }
 
-  document.getElementById('quiz-container').innerHTML =
+  // POST-TEST: check if all content visited
+  var allTabsDone = ['techniques','decide','construct','mistakes','playground'].every(function(s){ return tabsVisited[s]; });
+  if (!allTabsDone || !prePromptDone) {
+    var missing = ['techniques','decide','construct','mistakes','playground'].filter(function(s){ return !tabsVisited[s]; }).map(function(s){
+      return {techniques:'Techniques',decide:'Which one?',construct:'Construction',mistakes:'Mistakes',playground:'Playground'}[s];
+    });
+    if (!prePromptDone) missing.push('baseline prompt');
+    getQuizContainer().innerHTML =
+      '<div class="score-box">' +
+        '<div style="font-size:15px;font-weight:600;color:var(--ink);margin-bottom:8px">🔒 Post-test is locked</div>' +
+        '<p style="font-size:14px;color:var(--muted);margin-bottom:12px">Return to the content and complete the remaining steps first.</p>' +
+        '<p style="font-size:13px;color:var(--amber-dark);background:var(--amber-pale);padding:10px 14px;border-radius:var(--radius-md)">Still needed: ' + missing.join(', ') + '</p>' +
+        '<button onclick="showPhase(\'content\')" style="margin-top:14px;padding:10px 22px;background:#2563EB;color:#fff;border:none;border-radius:8px;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;">← Back to content</button>' +
+      '</div>';
+    quizInitialized = false;
+    return;
+  }
+
+  // Post-test complete — show post-prompt step
+  logEvent('posttest_complete', {
+    score: score, total: quizData.length, pct: pct,
+    pretest_score: pretestScore,
+    delta: pretestScore !== null ? score - pretestScore : null,
+    q1: quizScores[0]?1:0, q2: quizScores[1]?1:0,
+    q3: quizScores[2]?1:0, q4: quizScores[3]?1:0, q5: quizScores[4]?1:0
+  });
+
+  getQuizContainer().innerHTML =
     '<div class="score-box">' +
       '<div class="score-num">' + score + ' / ' + quizData.length + '</div>' +
-      deltaHtml +
       '<div class="score-msg">' + msg + '</div>' +
-      (isPretest
-        ? '<button class="copy-btn" onclick="initQuiz(false)" style="margin-right:8px">Retake as post-test</button>'
-        : '<button class="copy-btn" onclick="initQuiz(false)" style="margin-right:8px">Retake</button>') +
-      (!isPretest && pretestScore === null ? '<button class="copy-btn" onclick="initQuiz(true)">Take as pre-test</button>' : '') +
+      '<div style="margin-top:18px;padding:16px;background:var(--blue-pale, #EEF4FF);border:0.5px solid #C7D4F5;border-radius:var(--radius-md)">' +
+        '<p style="font-weight:600;margin:0 0 6px">Final step — write your post-test prompt</p>' +
+        '<p style="font-size:14px;color:var(--muted);margin:0 0 12px">Write a prompt for this new scenario. We\'ll score it and show you how your prompt craft improved alongside your quiz score.</p>' +
+        '<div style="font-size:14px;font-weight:500;color:var(--ink);padding:10px 14px;background:var(--bg2);border-radius:var(--radius-md);margin-bottom:12px;border:0.5px solid var(--border2)">📋 ' + POST_SCENARIO + '</div>' +
+        '<textarea id="post-prompt-input" style="width:100%;min-height:100px;padding:10px 14px;border:0.5px solid var(--border2);border-radius:var(--radius-md);font-family:inherit;font-size:14px;resize:vertical;box-sizing:border-box;" placeholder="Write your prompt for this scenario..."></textarea>' +
+        '<button id="post-prompt-btn" onclick="submitPostPrompt(' + score + ',' + pct + ')" style="margin-top:10px;padding:10px 22px;background:#2563EB;color:#fff;border:none;border-radius:8px;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;">See my full results →</button>' +
+        '<div id="post-prompt-loading" style="display:none;font-size:13px;color:var(--muted);margin-top:8px;">Scoring your prompt...</div>' +
+      '</div>' +
     '</div>';
-
-  if (isPretest) {
-    document.getElementById('pretest-banner').style.display = 'none';
-  }
   quizInitialized = false;
 }
 
-/* ── AUDIT ── */
-function toggleAudit(el) {
-  el.classList.toggle('checked');
-  var check = el.querySelector('.audit-check');
-  check.textContent = el.classList.contains('checked') ? '✓' : '';
-  updateAuditGate();
-}
-
-function updateAuditGate() {
-  var items = document.querySelectorAll('.audit-item');
-  var checked = document.querySelectorAll('.audit-item.checked').length;
-  var gate = document.getElementById('audit-gate');
-  if (checked === items.length) {
-    gate.className = 'audit-gate complete';
-    gate.textContent = '✓ All checks complete — you are ready to act on this output';
-  } else {
-    gate.className = 'audit-gate';
-    gate.textContent = checked + ' of ' + items.length + ' checks complete';
+/* ── PRE-PROMPT SUBMISSION ── */
+async function submitPrePrompt() {
+  var input = document.getElementById('pre-prompt-input');
+  var prompt = input ? input.value.trim() : '';
+  if (!prompt || prompt.length < 20) {
+    alert('Please write a prompt of at least 20 characters.');
+    return;
   }
-}
-
-/* ── RUBRIC SCORER ── */
-async function scorePrompt() {
-  var scenario = document.getElementById('rubric-scenario').value;
-  var prompt = document.getElementById('rubric-input').value.trim();
-  if (!scenario) { alert('Please select a scenario first.'); return; }
-  if (!prompt || prompt.length < 20) { alert('Please write a prompt of at least 20 characters.'); return; }
-
-  document.getElementById('rubric-btn').disabled = true;
-  document.getElementById('rubric-loading').style.display = 'block';
-  document.getElementById('rubric-results').style.display = 'none';
-
+  var loading = document.getElementById('pre-prompt-loading');
+  var btn = document.getElementById('pre-prompt-btn');
+  if (loading) loading.style.display = 'block';
+  if (btn) btn.disabled = true;
   try {
-    var payload = JSON.stringify({ scenario: scenario, prompt: prompt });
-    var response = await fetch('https://promptscorer.sharora.workers.dev', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: payload
-    });
-    var result = await response.json();
-    if (result.error) throw new Error(result.error);
-    displayRubric(result);
-    /* ── LOG TO SHEETS ── */
-    var dims = ['context_sufficiency','technique_selection','format_instruction','constraint_clarity','output_verifiability'];
-    var total = 0;
-    dims.forEach(function(d){ if(result[d]) total += result[d].score; });
-    var overall = Math.round(total / dims.length * 10) / 10;
-    logEvent('prompt_scored', {
-      scenario: scenario,
+    var result = await callScorer(PRE_SCENARIO, prompt);
+    pretestPromptScore = result;
+    var overall = calcOverall(result);
+    logEvent('pre_prompt_scored', {
+      scenario: PRE_SCENARIO,
       prompt_length: prompt.length,
       overall_score: overall,
-      context_sufficiency: result.context_sufficiency ? result.context_sufficiency.score : null,
-      technique_selection: result.technique_selection ? result.technique_selection.score : null,
-      format_instruction:  result.format_instruction  ? result.format_instruction.score  : null,
-      constraint_clarity:  result.constraint_clarity  ? result.constraint_clarity.score  : null,
-      output_verifiability:result.output_verifiability? result.output_verifiability.score : null
+      context_sufficiency:  result.context_sufficiency.score,
+      technique_selection:  result.technique_selection.score,
+      format_instruction:   result.format_instruction.score,
+      constraint_clarity:   result.constraint_clarity.score,
+      output_verifiability: result.output_verifiability.score
     });
+    prePromptDone = true;
+    updateProgressPills();
+    var c = document.getElementById('quiz-container');
+    if (c) c.innerHTML =
+      '<div class="score-box" style="text-align:center">' +
+        '<div style="font-size:20px;margin-bottom:8px">✓</div>' +
+        '<div style="font-size:16px;font-weight:600;color:var(--green-dark);margin-bottom:8px">Baseline complete!</div>' +
+        '<p style="font-size:14px;color:var(--muted);margin:0 0 20px">Your prompt has been scored silently. Work through the five content modules — your scores will be revealed at the end alongside your post-test results.</p>' +
+        '<button onclick="showPhase(\'content\')" style="padding:14px 32px;background:#2563EB;color:#fff;border:none;border-radius:8px;font-family:inherit;font-size:15px;font-weight:600;cursor:pointer;">Explore the guide →</button>' +
+      '</div>';
   } catch(e) {
-    document.getElementById('rubric-results').style.display = 'block';
-    document.getElementById('rubric-results').innerHTML = '<div style="font-size:13px;color:var(--coral-dark);padding:10px;background:var(--coral-pale);border-radius:var(--radius-md)">Scoring error: ' + e.message + '</div>';
+    console.error('submitPrePrompt error:', e);
+    if (loading) loading.style.display = 'none';
+    if (btn) btn.disabled = false;
+    alert('Scoring failed: ' + (e.message || 'unknown error') + '. Please try again.');
   }
-
-  document.getElementById('rubric-btn').disabled = false;
-  document.getElementById('rubric-loading').style.display = 'none';
 }
 
-function displayRubric(result) {
-  var dims = [
-    { key:'context_sufficiency',  label:'Context sufficiency' },
-    { key:'technique_selection',  label:'Technique selection' },
-    { key:'format_instruction',   label:'Format instruction' },
-    { key:'constraint_clarity',   label:'Constraint clarity' },
-    { key:'output_verifiability', label:'Output verifiability' }
-  ];
+/* ── POST-PROMPT SUBMISSION ── */
+async function submitPostPrompt(postMCQScore, postPct) {
+  var prompt = document.getElementById('post-prompt-input').value.trim();
+  if (!prompt || prompt.length < 20) { alert('Please write a prompt of at least 20 characters.'); return; }
+  document.getElementById('post-prompt-loading').style.display = 'block';
+  var btn = document.getElementById('post-prompt-btn');
+  if (btn) btn.disabled = true;
+  try {
+    var result = await callScorer(POST_SCENARIO, prompt);
+    posttestPromptScore = result;
+    var postOverall = calcOverall(result);
+    var preOverall  = pretestPromptScore ? calcOverall(pretestPromptScore) : null;
+    logEvent('post_prompt_scored', {
+      scenario: POST_SCENARIO,
+      prompt_length: prompt.length,
+      overall_score: postOverall,
+      pre_prompt_overall: preOverall,
+      prompt_delta: preOverall !== null ? (postOverall - preOverall).toFixed(1) : null,
+      context_sufficiency: result.context_sufficiency.score,
+      technique_selection: result.technique_selection.score,
+      format_instruction: result.format_instruction.score,
+      constraint_clarity: result.constraint_clarity.score,
+      output_verifiability: result.output_verifiability.score
+    });
+    showFinalResults(postMCQScore, postPct, preOverall, postOverall, result);
+    // mark post-test done in progress pills
+    var postEl = document.getElementById('cp-posttest');
+    if (postEl) postEl.className = 'cp-step done';
+  } catch(e) {
+    document.getElementById('post-prompt-loading').style.display = 'none';
+    alert('Scoring failed: ' + e.message + '. Please try again.');
+    var btn = document.getElementById('post-prompt-btn');
+    if (btn) btn.disabled = false;
+  }
+}
 
-  var total = 0;
-  var html = '';
+/* ── COMBINED FINAL RESULTS ── */
+function showFinalResults(postMCQ, postPct, prePromptAvg, postPromptAvg, promptResult) {
+  var mcqDelta   = pretestScore !== null ? postMCQ - pretestScore : null;
+  var promptDelta = prePromptAvg !== null ? (postPromptAvg - prePromptAvg) : null;
 
-  dims.forEach(function(d) {
-    var r = result[d.key];
-    if (!r) return;
-    total += r.score;
-    var cls = r.score >= 4 ? 'score-high' : r.score >= 3 ? 'score-mid' : 'score-low';
-    var fillCls = r.score >= 4 ? 'fill-high' : r.score >= 3 ? 'fill-mid' : 'fill-low';
-    var label = r.score >= 4 ? 'Strong' : r.score >= 3 ? 'Adequate' : 'Needs work';
-    var pct = Math.round((r.score / 5) * 100);
-    html += '<div class="rubric-dim">' +
-      '<div class="rubric-dim-header">' +
-        '<span class="rubric-dim-name">' + d.label + '</span>' +
-        '<span class="rubric-score-badge ' + cls + '">' + label + ' (' + r.score + '/5)</span>' +
+  var mcqDeltaHtml = mcqDelta !== null ?
+    '<span class="' + (mcqDelta > 0 ? 'delta-up' : mcqDelta === 0 ? 'delta-same' : 'delta-down') + '">' +
+    (mcqDelta > 0 ? '↑ +' + mcqDelta : mcqDelta === 0 ? '→ No change' : '↓ ' + mcqDelta) + ' from pre-test</span>' : '';
+
+  var promptDeltaHtml = promptDelta !== null ?
+    '<span class="' + (promptDelta > 0 ? 'delta-up' : promptDelta === 0 ? 'delta-same' : 'delta-down') + '">' +
+    (promptDelta > 0 ? '↑ +' + promptDelta.toFixed(1) : promptDelta === 0 ? '→ No change' : '↓ ' + promptDelta.toFixed(1)) + ' from pre-test prompt</span>' : '';
+
+  var dimHtml = ['context_sufficiency','technique_selection','format_instruction','constraint_clarity','output_verifiability'].map(function(d) {
+    var label = d.replace(/_/g,' ').replace(/\b\w/g,function(c){ return c.toUpperCase(); });
+    var pre  = pretestPromptScore ? pretestPromptScore[d].score : null;
+    var post = promptResult[d].score;
+    var bar  = Math.round((post/5)*100);
+    var diff = pre !== null ? post - pre : null;
+    var diffHtml = diff !== null ? ' <span style="font-size:12px;color:' + (diff>0?'var(--green-dark)':diff<0?'#E24B4A':'var(--muted)') + '">' + (diff>0?'▲+'+diff:diff<0?'▼'+diff:'—') + '</span>' : '';
+    return '<div style="margin-bottom:10px">' +
+      '<div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:3px;">' +
+        '<span style="color:var(--muted)">' + label + '</span>' +
+        '<span style="font-weight:600">' + post + '/5' + diffHtml + '</span>' +
       '</div>' +
-      '<div class="rubric-dim-bar"><div class="rubric-dim-fill ' + fillCls + '" style="width:' + pct + '%"></div></div>' +
-      '<div class="rubric-dim-fb">' + r.feedback + '</div>' +
+      '<div style="height:6px;background:var(--bg3);border-radius:3px;overflow:hidden">' +
+        '<div style="height:100%;width:' + bar + '%;background:var(--blue);border-radius:3px;transition:width 0.6s"></div>' +
+      '</div>' +
+      '<div style="font-size:12px;color:var(--muted);margin-top:3px">' + promptResult[d].feedback + '</div>' +
     '</div>';
+  }).join('');
+
+  showPhase('results');
+  document.getElementById('results-container').innerHTML =
+    '<div class="score-box">' +
+      '<div style="font-size:18px;font-weight:700;color:var(--ink);margin-bottom:16px">🎉 You\'re done! Here\'s how you grew.</div>' +
+
+      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px">' +
+        '<div style="padding:14px;background:var(--bg2);border:0.5px solid var(--border2);border-radius:var(--radius-md);text-align:center">' +
+          '<div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">Knowledge quiz</div>' +
+          '<div style="font-size:28px;font-weight:700;color:var(--ink)">' + postMCQ + '/5</div>' +
+          '<div style="font-size:13px;margin-top:4px">' + (mcqDeltaHtml || '<span style="color:var(--muted)">First attempt</span>') + '</div>' +
+        '</div>' +
+        '<div style="padding:14px;background:var(--bg2);border:0.5px solid var(--border2);border-radius:var(--radius-md);text-align:center">' +
+          '<div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">Prompt quality</div>' +
+          '<div style="font-size:28px;font-weight:700;color:var(--blue)">' + postPromptAvg.toFixed(1) + '/5</div>' +
+          '<div style="font-size:13px;margin-top:4px">' + (promptDeltaHtml || '<span style="color:var(--muted)">First attempt</span>') + '</div>' +
+        '</div>' +
+      '</div>' +
+
+      '<div style="font-size:13px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">Prompt scorer breakdown</div>' +
+      dimHtml +
+    '</div>';
+}
+
+/* ── SCORER HELPERS ── */
+function calcOverall(result) {
+  var dims = ['context_sufficiency','technique_selection','format_instruction','constraint_clarity','output_verifiability'];
+  var sum = dims.reduce(function(s,d){ return s + (result[d] ? result[d].score : 0); }, 0);
+  return Math.round((sum / dims.length) * 10) / 10;
+}
+
+async function callScorer(scenario, prompt) {
+  var payload = JSON.stringify({ scenario: scenario, prompt: prompt });
+  var response = await fetch('https://promptscorer.sharora.workers.dev', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: payload
   });
-
-  var overall = Math.round(total / dims.length * 10) / 10;
-  var overallCls = overall >= 4 ? 'delta-up' : overall >= 3 ? 'delta-same' : 'delta-down';
-  var overallMsg = overall >= 4 ? 'Strong prompt overall.' : overall >= 3 ? 'Good foundation — specific dimensions need attention.' : 'Significant room to improve — focus on the dimensions marked "Needs work."';
-
-  var resultEl = document.getElementById('rubric-results');
-  resultEl.style.display = 'block';
-  resultEl.innerHTML =
-    '<div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap">' +
-      '<span style="font-size:22px;font-family:DM Serif Display,serif;color:var(--ink)">' + overall + '/5</span>' +
-      '<span class="score-delta ' + overallCls + '" style="font-size:12px">' + overallMsg + '</span>' +
-    '</div>' + html +
-    '<button class="copy-btn" onclick="document.getElementById(\'rubric-input\').value=\'\';document.getElementById(\'rubric-results\').style.display=\'none\'" style="margin-top:10px">Try again</button>';
+  var result = await response.json();
+  if (result.error) throw new Error(result.error);
+  return result;
 }
 </script>
 </body>
