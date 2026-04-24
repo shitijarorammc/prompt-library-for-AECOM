@@ -1567,48 +1567,39 @@ function showContent(id, btn) {
 
 function updateProgressPills() {
   var steps = ['techniques','decide','construct','mistakes','playground'];
+  var labelMap = {techniques:'Techniques', decide:'Which one?', construct:'Construction', mistakes:'Mistakes', playground:'Playground'};
+
   steps.forEach(function(s) {
     var el = document.getElementById('cp-' + s);
     if (!el) return;
     if (tabsVisited[s]) {
       el.className = 'cp-step done';
-      // Add checkmark if not already there
-      if (!el.textContent.startsWith('✓')) {
-        el.textContent = '✓ ' + el.textContent.replace(/^✓\s*/, '');
-      }
+      el.textContent = '✓ ' + labelMap[s];
+    } else {
+      el.className = 'cp-step';
+      el.textContent = labelMap[s];
     }
   });
 
-  var allDone = steps.every(function(s){ return tabsVisited[s]; }) && prePromptDone;
+  var allTabsDone = steps.every(function(s){ return tabsVisited[s]; });
+  var allDone = allTabsDone && prePromptDone;
+
   var postEl = document.getElementById('cp-posttest');
   var readyBar = document.getElementById('posttest-ready-bar');
+  var cta = document.getElementById('posttest-cta');
+  var banner = document.getElementById('unlock-banner');
 
   if (allDone) {
-    // Unlock post-test pill — make it a clickable teal button
-    if (postEl) {
-      postEl.className = 'cp-step unlocked-posttest';
-      postEl.textContent = '→ Post-test';
-    }
-    // Show sticky ready banner
+    if (postEl) { postEl.className = 'cp-step unlocked-posttest'; postEl.textContent = '→ Post-test'; }
     if (readyBar) readyBar.classList.add('visible');
-    // Show bottom CTA
-    var cta = document.getElementById('posttest-cta');
     if (cta) cta.style.display = 'block';
-    // Hide unlock banner
-    var banner = document.getElementById('unlock-banner');
     if (banner) banner.style.display = 'none';
   } else {
-    if (postEl) {
-      postEl.className = 'cp-step locked';
-      postEl.textContent = '🔒 Post-test';
-    }
+    if (postEl) { postEl.className = 'cp-step locked'; postEl.textContent = '🔒 Post-test'; }
     if (readyBar) readyBar.classList.remove('visible');
-    // Show what's still missing
-    var missing = steps.filter(function(s){ return !tabsVisited[s]; }).map(function(s){
-      return {techniques:'Techniques',decide:'Which one?',construct:'Construction',mistakes:'Mistakes',playground:'Playground'}[s];
-    });
+    if (cta) cta.style.display = 'none';
+    var missing = steps.filter(function(s){ return !tabsVisited[s]; }).map(function(s){ return labelMap[s]; });
     if (!prePromptDone) missing.push('baseline prompt');
-    var banner = document.getElementById('unlock-banner');
     if (banner) {
       banner.style.display = missing.length ? 'block' : 'none';
       banner.textContent = missing.length ? 'Still needed before post-test: ' + missing.join(', ') + '.' : '';
