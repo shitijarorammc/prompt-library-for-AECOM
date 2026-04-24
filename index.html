@@ -134,9 +134,31 @@ body {
   border: 0.5px solid var(--border2); white-space: nowrap;
   transition: all 0.2s;
 }
-.cp-step.done { background: var(--teal-pale); color: var(--teal-dark); border-color: var(--teal-light); }
+.cp-step.done { background: var(--teal-pale); color: var(--teal-dark); border-color: var(--teal-light); font-weight: 500; }
 .cp-step.active { background: var(--blue-dark); color: #fff; border-color: var(--blue-dark); }
-.cp-step.locked { opacity: 0.5; }
+.cp-step.locked { opacity: 0.4; cursor: default; }
+.cp-step.unlocked-posttest {
+  background: var(--teal-dark); color: #fff; border-color: var(--teal-dark);
+  font-weight: 600; cursor: pointer; animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(15,110,86,0.4); }
+  50% { box-shadow: 0 0 0 6px rgba(15,110,86,0); }
+}
+
+/* Sticky post-test ready banner */
+#posttest-ready-bar {
+  display: none;
+  position: sticky; top: 0; z-index: 100;
+  background: var(--teal-dark); color: #fff;
+  padding: 12px 20px;
+  display: none;
+  align-items: center; justify-content: space-between;
+  border-radius: var(--radius-md);
+  margin-bottom: 1rem;
+  gap: 12px;
+}
+#posttest-ready-bar.visible { display: flex; }
 
 .content-tabs {
   display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 2rem;
@@ -843,6 +865,17 @@ select {
 <!-- PHASE 3: CONTENT (all learning tabs) -->
 <div id="phase-content" class="phase" style="display:none">
 
+  <!-- STICKY POST-TEST READY BANNER -->
+  <div id="posttest-ready-bar">
+    <div>
+      <div style="font-size:14px;font-weight:700;">🎉 All modules complete — you're ready for the post-test!</div>
+      <div style="font-size:12px;opacity:0.85;margin-top:2px;">Takes about 3 minutes. See how much you've grown.</div>
+    </div>
+    <button onclick="showPhase('posttest')" style="background:#fff;color:var(--teal-dark);border:none;border-radius:8px;padding:10px 20px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;">
+      Take post-test →
+    </button>
+  </div>
+
   <!-- TOP BAR -->
   <div class="content-topbar">
     <div class="content-progress" id="content-progress">
@@ -852,7 +885,7 @@ select {
       <div class="cp-step" id="cp-construct">Construction</div>
       <div class="cp-step" id="cp-mistakes">Mistakes</div>
       <div class="cp-step" id="cp-playground">Playground</div>
-      <div class="cp-step locked" id="cp-posttest">🔒 Post-test</div>
+      <div class="cp-step locked" id="cp-posttest" onclick="if(this.classList.contains('unlocked-posttest')) showPhase('posttest')">🔒 Post-test</div>
     </div>
     <button class="phase-home-btn" onclick="goHome()">← Home</button>
   </div>
@@ -873,13 +906,14 @@ select {
   <div id="content-body"></div>
 
   <!-- POST-TEST CTA — appears when all tabs visited -->
-  <div id="posttest-cta" style="display:none; margin-top:2rem; padding:2rem; background:var(--teal-pale); border:0.5px solid var(--teal-light); border-radius:var(--radius-xl); text-align:center;">
-    <div style="font-size:24px;margin-bottom:8px">🎉</div>
-    <div style="font-size:20px;font-weight:700;color:var(--teal-dark);margin-bottom:8px">You've completed all the modules</div>
-    <p style="color:var(--muted);font-size:15px;margin-bottom:20px">Time to see how much you've grown. The post-test takes about 3 minutes.</p>
-    <button class="phase-cta-primary" onclick="showPhase('posttest')" style="background:var(--teal-dark);">
+  <div id="posttest-cta" style="display:none; margin-top:2rem; padding:2.5rem 2rem; background:var(--teal-dark); border-radius:var(--radius-xl); text-align:center;">
+    <div style="font-size:28px;margin-bottom:12px">🎉</div>
+    <div style="font-size:22px;font-weight:700;color:#fff;margin-bottom:8px">You've completed all the modules</div>
+    <p style="color:rgba(255,255,255,0.8);font-size:15px;margin-bottom:24px;max-width:400px;margin-left:auto;margin-right:auto;">Time to measure your growth. The post-test takes about 3 minutes — same format as the baseline.</p>
+    <button onclick="showPhase('posttest')" style="background:#fff;color:var(--teal-dark);border:none;border-radius:10px;padding:16px 40px;font-family:inherit;font-size:17px;font-weight:700;cursor:pointer;display:inline-block;">
       Take the post-test →
     </button>
+    <p style="color:rgba(255,255,255,0.6);font-size:12px;margin-top:14px;">5 questions + one prompt. Your scores will be compared to your baseline.</p>
   </div>
 </div>
 
@@ -1526,24 +1560,49 @@ function updateProgressPills() {
   var steps = ['techniques','decide','construct','mistakes','playground'];
   steps.forEach(function(s) {
     var el = document.getElementById('cp-' + s);
-    if (el) el.className = 'cp-step' + (tabsVisited[s] ? ' done' : '');
+    if (!el) return;
+    if (tabsVisited[s]) {
+      el.className = 'cp-step done';
+      // Add checkmark if not already there
+      if (!el.textContent.startsWith('✓')) {
+        el.textContent = '✓ ' + el.textContent.replace(/^✓\s*/, '');
+      }
+    }
   });
+
   var allDone = steps.every(function(s){ return tabsVisited[s]; }) && prePromptDone;
   var postEl = document.getElementById('cp-posttest');
-  if (postEl) postEl.className = 'cp-step' + (allDone ? ' done' : ' locked');
-  var cta = document.getElementById('posttest-cta');
-  if (cta) cta.style.display = allDone ? 'block' : 'none';
-  var banner = document.getElementById('unlock-banner');
-  if (banner) {
-    if (!allDone) {
-      var missing = steps.filter(function(s){ return !tabsVisited[s]; }).map(function(s){
-        return {techniques:'Techniques',decide:'Which one?',construct:'Construction',mistakes:'Mistakes',playground:'Playground'}[s];
-      });
-      if (!prePromptDone) missing.push('baseline prompt');
+  var readyBar = document.getElementById('posttest-ready-bar');
+
+  if (allDone) {
+    // Unlock post-test pill — make it a clickable teal button
+    if (postEl) {
+      postEl.className = 'cp-step unlocked-posttest';
+      postEl.textContent = '→ Post-test';
+    }
+    // Show sticky ready banner
+    if (readyBar) readyBar.classList.add('visible');
+    // Show bottom CTA
+    var cta = document.getElementById('posttest-cta');
+    if (cta) cta.style.display = 'block';
+    // Hide unlock banner
+    var banner = document.getElementById('unlock-banner');
+    if (banner) banner.style.display = 'none';
+  } else {
+    if (postEl) {
+      postEl.className = 'cp-step locked';
+      postEl.textContent = '🔒 Post-test';
+    }
+    if (readyBar) readyBar.classList.remove('visible');
+    // Show what's still missing
+    var missing = steps.filter(function(s){ return !tabsVisited[s]; }).map(function(s){
+      return {techniques:'Techniques',decide:'Which one?',construct:'Construction',mistakes:'Mistakes',playground:'Playground'}[s];
+    });
+    if (!prePromptDone) missing.push('baseline prompt');
+    var banner = document.getElementById('unlock-banner');
+    if (banner) {
       banner.style.display = missing.length ? 'block' : 'none';
       banner.textContent = missing.length ? 'Still needed before post-test: ' + missing.join(', ') + '.' : '';
-    } else {
-      banner.style.display = 'none';
     }
   }
 }
